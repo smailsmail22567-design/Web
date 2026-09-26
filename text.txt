@@ -1,0 +1,20 @@
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden, FileResponse
+from .models import Order, Product
+
+@login_required
+def download_product(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    
+    # التحقق الآلي: هل قام المستخدم بشراء المنتج وتم الدفع بنجاح؟
+    has_purchased = Order.objects.filter(
+        user=request.user, 
+        product=product, 
+        is_paid=True
+    ).exists()
+    
+    if not has_purchased:
+        return HttpResponseForbidden("❌ عذراً، لا يمكنك تحميل هذا الملف لعدم اكتمال عملية الشراء!")
+    
+    return FileResponse(product.file.open(), as_attachment=True)
