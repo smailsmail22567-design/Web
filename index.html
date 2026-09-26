@@ -45,6 +45,7 @@
             font-size: 24px;
             font-weight: 900;
             color: #38bdf8;
+            cursor: pointer;
         }
         .nav-links {
             display: flex;
@@ -55,6 +56,7 @@
             color: #cbd5e1;
             text-decoration: none;
             transition: 0.3s;
+            cursor: pointer;
         }
         .nav-links a:hover {
             color: #38bdf8;
@@ -74,7 +76,7 @@
         }
         .hero {
             max-width: 1200px;
-            margin: 50px auto;
+            margin: 80px auto;
             text-align: center;
             padding: 0 20px;
         }
@@ -106,10 +108,15 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
         }
+        /* قسم المنتجات مخفي افتراضياً حتى يتم الضغط على زر المنتجات */
         .products-section {
             max-width: 1200px;
             margin: 50px auto;
             padding: 0 20px;
+            display: none; 
+        }
+        .products-section.active {
+            display: block;
         }
         .section-title {
             font-size: 28px;
@@ -179,7 +186,7 @@
             background: #38bdf8;
             color: #0f172a;
         }
-        /* النافذة المنبثقة العامة */
+        /* نافذة السلة */
         .popup-overlay {
             position: fixed;
             top: 0;
@@ -208,13 +215,6 @@
             text-align: center;
             border: 1px solid #38bdf8;
             position: relative;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-        .popup-content h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-            color: #38bdf8;
         }
         .close-popup {
             position: absolute;
@@ -259,26 +259,27 @@
 
     <header>
         <div class="nav-container">
-            <div class="logo">DigitalStore</div>
+            <div class="logo" onclick="showHome()">DigitalStore</div>
             <ul class="nav-links">
-                <li><a href="#">الرئيسية</a></li>
-                <li><a href="#products">المنتجات</a></li>
-                <li><a href="#" onclick="alert('متجر مختص بتوفير الأصول البر الرقمية وقوالب التليجرام.')">من نحن</a></li>
+                <li><a onclick="showHome()">الرئيسية</a></li>
+                <li><a onclick="showProducts()">المنتجات</a></li>
+                <li><a onclick="alert('متجر مختص بتوفير الأصول الرقمية وقوالب التليجرام.')">من نحن</a></li>
             </ul>
             <button class="cart-btn" onclick="openCart()">🛒 السلة (<span id="cartCount">0</span>)</button>
         </div>
     </header>
 
-    <section class="hero">
+    <!-- الواجهة الرئيسية (تظهر لوحدها) -->
+    <section class="hero" id="heroSection">
         <h1>طور مشاريعك بأقوى الأصول الرقمية</h1>
         <p>احصل على قوالب جاهزة، سكربتات برمجية، وتصميمات عالية الجودة جاهزة للاستخدام الفوري لرفع كفاءة عملك.</p>
-        <button class="cta-main" onclick="scrollToProducts()">تصفح المنتجات الآن</button>
+        <button class="cta-main" onclick="showProducts()">تصفح المنتجات الآن</button>
     </section>
 
-    <section class="products-section" id="products">
+    <!-- قسم المنتجات (مخفي افتراضياً ويظهر عند النقر على زر المنتجات) -->
+    <section class="products-section" id="productsSection">
         <h2 class="section-title">أحدث المنتجات الرقمية</h2>
         <div class="products-grid">
-            <!-- منتج 1 -->
             <div class="product-card">
                 <div class="product-img">معاينة القالب</div>
                 <div class="product-info">
@@ -290,7 +291,6 @@
                     </div>
                 </div>
             </div>
-            <!-- منتج 2 -->
             <div class="product-card">
                 <div class="product-img">معاينة السكربت</div>
                 <div class="product-info">
@@ -302,7 +302,6 @@
                     </div>
                 </div>
             </div>
-            <!-- منتج 3 -->
             <div class="product-card">
                 <div class="product-img">معاينة التصميم</div>
                 <div class="product-info">
@@ -317,7 +316,7 @@
         </div>
     </section>
 
-    <!-- نافذة السلة المنبثقة -->
+    <!-- نافذة السلة -->
     <div class="popup-overlay" id="cartPopup">
         <div class="popup-content">
             <button class="close-popup" onclick="closeCart()">&times;</button>
@@ -336,8 +335,16 @@
     <script>
         let cart = [];
 
-        function scrollToProducts() {
-            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        function showProducts() {
+            document.getElementById('heroSection').style.display = 'none';
+            document.getElementById('productsSection').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showHome() {
+            document.getElementById('productsSection').classList.remove('active');
+            document.getElementById('heroSection').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function addToCart(name, price) {
@@ -356,7 +363,7 @@
             } else {
                 let html = '';
                 let total = 0;
-                cart.forEach((item, index) => {
+                cart.forEach((item) => {
                     total += item.price;
                     html += `<div class="cart-item"><span>${item.name}</span> <b>$${item.price}</b></div>`;
                 });
@@ -376,7 +383,6 @@
                 alert('سلتك فارغة!');
                 return;
             }
-            // يمكنك استبدال الرابط أدناه برابط بوت التليجرام الخاص بك
             window.open('https://t.me/your_bot_username', '_blank');
         }
     </script>
