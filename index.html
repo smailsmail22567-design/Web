@@ -3,156 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acona Store - Telegram WebApp</title>
-    <!-- مكتبة تلجرام الرسمية للـ Web App -->
+    <title>Fox Store DZ - Official Store</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-color: var(--tg-theme-bg-color, #f4f4f9);
-            --text-color: var(--tg-theme-text-color, #222);
-            --card-bg: var(--tg-theme-secondary-bg-color, #ffffff);
-            --button-color: var(--tg-theme-button-color, #0088cc);
-            --button-text: var(--tg-theme-button-text-color, #ffffff);
+            --bg-main: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --badge-discount: #ef4444;
+            --border: #334155;
         }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
             padding: 15px;
+            direction: rtl;
         }
-        h1 {
-            text-align: center;
-            font-size: 22px;
-            color: var(--button-color);
-            margin-bottom: 20px;
-        }
-        .products-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .product-card {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .product-info {
+
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
         }
-        .product-title {
-            font-weight: bold;
-            font-size: 16px;
+
+        .store-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .product-category {
-            font-size: 12px;
-            background: rgba(0, 136, 204, 0.1);
-            color: var(--button-color);
-            padding: 3px 8px;
-            border-radius: 4px;
+
+        .top-nav-buttons {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
         }
-        .product-price {
-            color: #27ae60;
-            font-weight: bold;
-            font-size: 15px;
-        }
-        .btn-buy {
-            background: var(--button-color);
-            color: var(--button-text);
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
+
+        .nav-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
             cursor: pointer;
-            font-weight: bold;
+        }
+
+        .section-header {
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .products-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #ec4899, #ef4444);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .product-img-box {
             width: 100%;
-            margin-top: 5px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .product-img-box img {
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .current-price {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .old-price {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 8px;
+            margin-top: 8px;
+        }
+
+        .in-stock {
+            color: #22c55e;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
     </style>
 </head>
 <body>
 
-    <h1>متجر Acona الرقمي</h1>
-    <div id="products-list" class="products-grid"></div>
+    <div class="header-top">
+        <div class="store-title">FOX STORE 🇩🇿</div>
+    </div>
+
+    <div class="top-nav-buttons">
+        <button class="nav-btn">📦 Track order</button>
+        <button class="nav-btn">📐 Size guide</button>
+        <button class="nav-btn">🔒 Admin</button>
+    </div>
+
+    <div class="section-header">
+        <div class="section-title">All Jackets (3)</div>
+        <div class="section-subtitle">Click any jacket to view</div>
+    </div>
+
+    <div class="products-container">
+        <!-- المنتج الأول -->
+        <div class="product-card" onclick="viewProduct('Black Jacket', '5,490 DA')">
+            <div class="discount-badge">-21%</div>
+            <div class="product-img-box">
+                <span style="font-size: 50px;">🧥</span>
+            </div>
+            <div class="product-name">Black Jacket</div>
+            <div class="price-row">
+                <span class="current-price">5,490 DA</span>
+                <span class="old-price">6,990 DA</span>
+            </div>
+            <div style="font-size: 11px; color: #eab308; margin-bottom: 4px;">⭐⭐⭐⭐⭐ (new)</div>
+            <div class="product-meta">
+                <span class="in-stock">● In stock</span>
+                <span>👁️ Quick view</span>
+            </div>
+        </div>
+
+        <!-- المنتج الثاني -->
+        <div class="product-card" onclick="viewProduct('Blue Jacket', '4,990 DA')">
+            <div class="discount-badge">-23%</div>
+            <div class="product-img-box">
+                <span style="font-size: 50px;">🧥</span>
+            </div>
+            <div class="product-name">Blue Jacket</div>
+            <div class="price-row">
+                <span class="current-price">4,990 DA</span>
+                <span class="old-price">6,490 DA</span>
+            </div>
+            <div style="font-size: 11px; color: #eab308; margin-bottom: 4px;">⭐⭐⭐⭐⭐ (new)</div>
+            <div class="product-meta">
+                <span class="in-stock">● In stock</span>
+                <span>👁️ Quick view</span>
+            </div>
+        </div>
+
+        <!-- المنتج الثالث -->
+        <div class="product-card" onclick="viewProduct('Green Jacket', '4,590 DA')">
+            <div class="discount-badge">-18%</div>
+            <div class="product-img-box">
+                <span style="font-size: 50px;">🧥</span>
+            </div>
+            <div class="product-name">Green Puffer Jacket</div>
+            <div class="price-row">
+                <span class="current-price">4,590 DA</span>
+                <span class="old-price">5,590 DA</span>
+            </div>
+            <div style="font-size: 11px; color: #eab308; margin-bottom: 4px;">⭐⭐⭐⭐⭐ (new)</div>
+            <div class="product-meta">
+                <span class="in-stock">● In stock</span>
+                <span>👁️ Quick view</span>
+            </div>
+        </div>
+    </div>
 
     <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
+        const tg = window.Telegram?.WebApp;
+        if (tg) {
+            tg.expand();
+            tg.ready();
+        }
 
-        // بيانات المنتجات مدمجة مباشرة داخل الكود بدون الحاجة لملف خارجي
-        const productsData = [
-            {
-                "id": 1,
-                "cat": "phones",
-                "price": 449,
-                "en": {"n": "iPhone 11 Pro Max 256GB"}
-            },
-            {
-                "id": 2,
-                "cat": "phones",
-                "price": 549,
-                "en": {"n": "iPhone 12 Pro Max 256GB"}
-            },
-            {
-                "id": 3,
-                "cat": "phones",
-                "price": 599,
-                "en": {"n": "iPhone 13 128GB"}
-            },
-            {
-                "id": 4,
-                "cat": "laptops",
-                "price": 849,
-                "en": {"n": "MacBook Pro 13\" M2"}
-            },
-            {
-                "id": 5,
-                "cat": "wear",
-                "price": 649,
-                "en": {"n": "Apple Watch Ultra 2 49mm"}
-            },
-            {
-                "id": 6,
-                "cat": "acc",
-                "price": 39,
-                "en": {"n": "65W GaN Fast Charger"}
+        function viewProduct(name, price) {
+            if (tg) {
+                tg.showAlert(`تم اختيار: ${name}\nالسعر: ${price}`);
+            } else {
+                alert(`تم اختيار: ${name}\nالسعر: ${price}`);
             }
-        ];
-
-        function renderProducts() {
-            let container = document.getElementById('products-list');
-            container.innerHTML = '';
-
-            productsData.forEach(item => {
-                let name = item.en.n;
-                let price = item.price;
-                let category = item.cat;
-                
-                let card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML = `
-                    <div class="product-info">
-                        <span class="product-title">${name}</span>
-                        <span class="product-category">${category}</span>
-                    </div>
-                    <div class="product-price">$${price}</div>
-                    <button class="btn-buy" onclick="buyProduct('${name}', ${price})">شراء الآن</button>
-                `;
-                container.appendChild(card);
-            });
         }
-
-        function buyProduct(name, price) {
-            tg.showAlert(`تم اختيار المنتج:\n${name}\nالسعر: $${price}\n\nتم إرسال الطلب بنجاح!`);
-        }
-
-        // تشغيل عرض المنتجات فور فتح الصفحة
-        renderProducts();
     </script>
 </body>
 </html>
