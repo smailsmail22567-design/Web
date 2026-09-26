@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Fox Store DZ - Official Store</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
@@ -21,6 +21,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -58,12 +59,18 @@
             background: var(--card-bg);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 6px 12px;
+            padding: 8px 14px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
             white-space: nowrap;
             cursor: pointer;
+            z-index: 10;
+        }
+
+        .nav-btn:active {
+            background: var(--accent);
+            color: #0f172a;
         }
 
         .section-header {
@@ -93,6 +100,12 @@
             padding: 15px;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
         }
 
         .discount-badge {
@@ -114,11 +127,6 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 12px;
-        }
-
-        .product-img-box img {
-            max-height: 100%;
-            object-fit: contain;
         }
 
         .product-name {
@@ -172,9 +180,9 @@
     </div>
 
     <div class="top-nav-buttons">
-        <button class="nav-btn">📦 Track order</button>
-        <button class="nav-btn">📐 Size guide</button>
-        <button class="nav-btn">🔒 Admin</button>
+        <button class="nav-btn" onclick="handleNav('تتبع الطلب')">📦 Track order</button>
+        <button class="nav-btn" onclick="handleNav('دليل المقاسات')">📐 Size guide</button>
+        <button class="nav-btn" onclick="handleNav('لوحة التحكم')">🔒 Admin</button>
     </div>
 
     <div class="section-header">
@@ -220,7 +228,7 @@
         </div>
 
         <!-- المنتج الثالث -->
-        <div class="product-card" onclick="viewProduct('Green Jacket', '4,590 DA')">
+        <div class="product-card" onclick="viewProduct('Green Puffer Jacket', '4,590 DA')">
             <div class="discount-badge">-18%</div>
             <div class="product-img-box">
                 <span style="font-size: 50px;">🧥</span>
@@ -239,6 +247,7 @@
     </div>
 
     <script>
+        // تهيئة بيئة تيليجرام
         const tg = window.Telegram?.WebApp;
         if (tg) {
             tg.expand();
@@ -246,10 +255,18 @@
         }
 
         function viewProduct(name, price) {
-            if (tg) {
+            if (tg && tg.showAlert) {
                 tg.showAlert(`تم اختيار: ${name}\nالسعر: ${price}`);
             } else {
                 alert(`تم اختيار: ${name}\nالسعر: ${price}`);
+            }
+        }
+
+        function handleNav(section) {
+            if (tg && tg.showAlert) {
+                tg.showAlert(`الانتقال إلى: ${section}`);
+            } else {
+                alert(`الانتقال إلى: ${section}`);
             }
         }
     </script>
