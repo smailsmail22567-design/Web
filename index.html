@@ -18,56 +18,69 @@
             line-height: 1.6;
         }
 
-        /* واجهة البداية لتأخذ الشاشة كلها وتكون الصورة بارزة وواضحة */
+        /* واجهة البداية: الصورة كخلفية تملأ الشاشة بالكامل */
         .welcome-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background: #090d16;
+            background-image: url('10713.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
             z-index: 2000;
             transition: 0.5s ease-in-out;
-            padding: 20px;
+            padding-bottom: 50px;
         }
-        .welcome-logo {
-            width: 280px;
-            height: 280px;
-            max-width: 80vw;
-            max-height: 50vh;
-            border-radius: 20px;
-            object-fit: cover;
-            box-shadow: 0 15px 40px rgba(56, 189, 248, 0.4);
-            margin-bottom: 25px;
-            border: 2px solid #38bdf8;
+
+        /* طبقة تعتيم خفيفة فوق الخلفية لجعل الأزرار واضحة وبارزة */
+        .welcome-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1;
         }
-        .welcome-buttons {
+
+        /* محتوى واجهة البداية ليظهر فوق طبقة التعتيم */
+        .welcome-content {
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             width: 260px;
         }
+
+        /* الأزرار بنفس الحجم والتصميم المتناسق */
         .device-btn {
-            background: #1e293b;
-            color: #38bdf8;
-            border: 2px solid #38bdf8;
-            padding: 14px;
-            font-size: 18px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 12px;
+            font-size: 17px;
             font-weight: 700;
             border-radius: 12px;
             cursor: pointer;
             transition: 0.3s;
             text-align: center;
+            letter-spacing: 0.5px;
         }
         .device-btn:hover {
-            background: #38bdf8;
+            background: #ffffff;
             color: #0f172a;
+            border-color: #ffffff;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
         }
 
         /* محتوى المتجر الأساسي */
@@ -309,10 +322,9 @@
 </head>
 <body>
 
-    <!-- واجهة البداية (الغلاف بحجم أكبر وبارز) -->
+    <!-- واجهة البداية (الصورة خلفية للشاشة والأزرار متناسقة في الأسفل) -->
     <div class="welcome-screen" id="welcomeScreen">
-        <img src="10713.jpg" alt="Pixel Forge Logo" class="welcome-logo">
-        <div class="welcome-buttons">
+        <div class="welcome-content">
             <button class="device-btn" onclick="selectDevice('phone')">الهاتف</button>
             <button class="device-btn" onclick="selectDevice('pc')">الكمبيوتر</button>
         </div>
@@ -438,7 +450,7 @@
                 listContainer.innerHTML = '<p style="color: #94a3b8; text-align: center;">السلة فارغة حالياً</p>';
                 totalContainer.innerText = '$0.00';
             } else {
-                let html =';
+                let html = '';
                 let total = 0;
                 cart.forEach((item) => {
                     total += item.price;
