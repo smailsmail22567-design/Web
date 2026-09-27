@@ -34,8 +34,8 @@
             transition: 0.5s ease-in-out;
         }
         .welcome-logo {
-            width: 180px;
-            height: 180px;
+            width: 200px;
+            height: 200px;
             border-radius: 20px;
             object-fit: cover;
             box-shadow: 0 10px 30px rgba(56, 189, 248, 0.3);
@@ -67,7 +67,7 @@
             box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
         }
 
-        /* محتوى المتجر الأساسي (مخفي حتى يتم اختيار الهاتف) */
+        /* محتوى المتجر الأساسي */
         #mainStoreContent {
             display: none;
         }
@@ -306,9 +306,10 @@
 </head>
 <body>
 
-    <!-- واجهة البداية (الغلاف) -->
+    <!-- واجهة البداية (الغلاف مع الصورة المحلية الزرين) -->
     <div class="welcome-screen" id="welcomeScreen">
-        <img src="https://i.ibb.co/6R22Q5H/10713.jpg" alt="Pixel Forge Logo" class="welcome-logo">
+        <!-- تأكد أن اسم صورتك في نفس المجلد هو 10713.jpg -->
+        <img src="10713.jpg" alt="Pixel Forge Logo" class="welcome-logo">
         <div class="welcome-buttons">
             <button class="device-btn" onclick="selectDevice('phone')">الهاتف</button>
             <button class="device-btn" onclick="selectDevice('pc')">الكمبيوتر</button>
@@ -399,14 +400,12 @@
 
         function selectDevice(type) {
             if (type === 'phone') {
-                // إخفاء واجهة الغلاف وإظهار المتجر
                 document.getElementById('welcomeScreen').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('welcomeScreen').style.display = 'none';
                     document.getElementById('mainStoreContent').style.display = 'block';
                 }, 500);
             } else if (type === 'pc') {
-                // سنقوم بتعديل هذا الزر لاحقاً حسب طلبك
                 alert('قريباً سيتم تفعيل وضع الكمبيوتر!');
             }
         }
