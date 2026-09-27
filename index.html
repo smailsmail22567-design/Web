@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر المنتجات الرقمية الاحترافي</title>
+    <title>PIXEL FORGE - متجر المنتجات الرقمية</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         * {
@@ -17,6 +17,61 @@
             color: #f8fafc;
             line-height: 1.6;
         }
+
+        /* واجهة البداية (الغلاف مع الصورة والزرين) */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #090d16;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            transition: 0.5s ease-in-out;
+        }
+        .welcome-logo {
+            width: 180px;
+            height: 180px;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.3);
+            margin-bottom: 30px;
+            border: 2px solid #38bdf8;
+        }
+        .welcome-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 220px;
+        }
+        .device-btn {
+            background: #1e293b;
+            color: #38bdf8;
+            border: 2px solid #38bdf8;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .device-btn:hover {
+            background: #38bdf8;
+            color: #0f172a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* محتوى المتجر الأساسي (مخفي حتى يتم اختيار الهاتف) */
+        #mainStoreContent {
+            display: none;
+        }
+
         .announcement-bar {
             background: linear-gradient(135deg, #6366f1, #a855f7);
             color: white;
@@ -108,7 +163,6 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
         }
-        /* قسم المنتجات مخفي افتراضياً حتى يتم الضغط على زر المنتجات */
         .products-section {
             max-width: 1200px;
             margin: 50px auto;
@@ -186,7 +240,6 @@
             background: #38bdf8;
             color: #0f172a;
         }
-        /* نافذة السلة */
         .popup-overlay {
             position: fixed;
             top: 0;
@@ -197,7 +250,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 3000;
             opacity: 0;
             visibility: hidden;
             transition: 0.3s;
@@ -253,87 +306,110 @@
 </head>
 <body>
 
-    <div class="announcement-bar">
-        🔥 خصم حصري 50% على جميع القوالب الرقمية لفترة محدودة!
+    <!-- واجهة البداية (الغلاف) -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <img src="https://i.ibb.co/6R22Q5H/10713.jpg" alt="Pixel Forge Logo" class="welcome-logo">
+        <div class="welcome-buttons">
+            <button class="device-btn" onclick="selectDevice('phone')">الهاتف</button>
+            <button class="device-btn" onclick="selectDevice('pc')">الكمبيوتر</button>
+        </div>
     </div>
 
-    <header>
-        <div class="nav-container">
-            <div class="logo" onclick="showHome()">DigitalStore</div>
-            <ul class="nav-links">
-                <li><a onclick="showHome()">الرئيسية</a></li>
-                <li><a onclick="showProducts()">المنتجات</a></li>
-                <li><a onclick="alert('متجر مختص بتوفير الأصول الرقمية وقوالب التليجرام.')">من نحن</a></li>
-            </ul>
-            <button class="cart-btn" onclick="openCart()">🛒 السلة (<span id="cartCount">0</span>)</button>
+    <!-- المحتوى الرئيسي للمتجر -->
+    <div id="mainStoreContent">
+        <div class="announcement-bar">
+            🔥 خصم حصري 50% على جميع القوالب الرقمية لفترة محدودة!
         </div>
-    </header>
 
-    <!-- الواجهة الرئيسية (تظهر لوحدها) -->
-    <section class="hero" id="heroSection">
-        <h1>طور مشاريعك بأقوى الأصول الرقمية</h1>
-        <p>احصل على قوالب جاهزة، سكربتات برمجية، وتصميمات عالية الجودة جاهزة للاستخدام الفوري لرفع كفاءة عملك.</p>
-        <button class="cta-main" onclick="showProducts()">تصفح المنتجات الآن</button>
-    </section>
+        <header>
+            <div class="nav-container">
+                <div class="logo" onclick="showHome()">PIXEL FORGE</div>
+                <ul class="nav-links">
+                    <li><a onclick="showHome()">الرئيسية</a></li>
+                    <li><a onclick="showProducts()">المنتجات</a></li>
+                    <li><a onclick="alert('متجر PIXEL FORGE لتوفير الأصول الرقمية وقوالب التليجرام.')">من نحن</a></li>
+                </ul>
+                <button class="cart-btn" onclick="openCart()">🛒 السلة (<span id="cartCount">0</span>)</button>
+            </div>
+        </header>
 
-    <!-- قسم المنتجات (مخفي افتراضياً ويظهر عند النقر على زر المنتجات) -->
-    <section class="products-section" id="productsSection">
-        <h2 class="section-title">أحدث المنتجات الرقمية</h2>
-        <div class="products-grid">
-            <div class="product-card">
-                <div class="product-img">معاينة القالب</div>
-                <div class="product-info">
-                    <h3 class="product-title">قالب متجر تليجرام Web App</h3>
-                    <p class="product-desc">واجهة مستخدم متكاملة وجاهزة للربط مع البوتات.</p>
-                    <div class="product-footer">
-                        <span class="price">$19.99</span>
-                        <button class="buy-btn" onclick="addToCart('قالب متجر تليجرام Web App', 19.99)">شراء فوري</button>
+        <section class="hero" id="heroSection">
+            <h1>طور مشاريعك بأقوى الأصول الرقمية</h1>
+            <p>احصل على قوالب جاهزة، سكربتات برمجية، وتصميمات عالية الجودة جاهزة للاستخدام الفوري لرفع كفاءة عملك.</p>
+            <button class="cta-main" onclick="showProducts()">تصفح المنتجات الآن</button>
+        </section>
+
+        <section class="products-section" id="productsSection">
+            <h2 class="section-title">أحدث المنتجات الرقمية</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-img">معاينة القالب</div>
+                    <div class="product-info">
+                        <h3 class="product-title">قالب متجر تليجرام Web App</h3>
+                        <p class="product-desc">واجهة مستخدم متكاملة وجاهزة للربط مع البوتات.</p>
+                        <div class="product-footer">
+                            <span class="price">$19.99</span>
+                            <button class="buy-btn" onclick="addToCart('قالب متجر تليجرام Web App', 19.99)">شراء فوري</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">معاينة السكربت</div>
+                    <div class="product-info">
+                        <h3 class="product-title">سكربت بايثون لإدارة الملفات</h3>
+                        <p class="product-desc">سكربت أتمتة لتقسيم الملفات والبيانات.</p>
+                        <div class="product-footer">
+                            <span class="price">$9.99</span>
+                            <button class="buy-btn" onclick="addToCart('سكربت بايثون لإدارة الملفات', 9.99)">شراء فوري</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">معاينة التصميم</div>
+                    <div class="product-info">
+                        <h3 class="product-title">حزمة واجهات UI/UX</h3>
+                        <p class="product-desc">أكثر من 50 شاشة جاهزة للتعديل عبر فيجما.</p>
+                        <div class="product-footer">
+                            <span class="price">$29.99</span>
+                            <button class="buy-btn" onclick="addToCart('حزمة واجهات UI/UX', 29.99)">شراء فوري</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="product-card">
-                <div class="product-img">معاينة السكربت</div>
-                <div class="product-info">
-                    <h3 class="product-title">سكربت بايثون لإدارة الملفات</h3>
-                    <p class="product-desc">سكربت أتمتة لتقسيم الملفات والبيانات.</p>
-                    <div class="product-footer">
-                        <span class="price">$9.99</span>
-                        <button class="buy-btn" onclick="addToCart('سكربت بايثون لإدارة الملفات', 9.99)">شراء فوري</button>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-img">معاينة التصميم</div>
-                <div class="product-info">
-                    <h3 class="product-title">حزمة واجهات UI/UX</h3>
-                    <p class="product-desc">أكثر من 50 شاشة جاهزة للتعديل عبر فيجما.</p>
-                    <div class="product-footer">
-                        <span class="price">$29.99</span>
-                        <button class="buy-btn" onclick="addToCart('حزمة واجهات UI/UX', 29.99)">شراء فوري</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- نافذة السلة -->
-    <div class="popup-overlay" id="cartPopup">
-        <div class="popup-content">
-            <button class="close-popup" onclick="closeCart()">&times;</button>
-            <h3>محتويات سلة المشتريات 🛒</h3>
-            <div class="cart-items-list" id="cartItemsList">
-                <p style="color: #94a3b8; text-align: center;">السلة فارغة حالياً</p>
+        <div class="popup-overlay" id="cartPopup">
+            <div class="popup-content">
+                <button class="close-popup" onclick="closeCart()">&times;</button>
+                <h3>محتويات سلة المشتريات 🛒</h3>
+                <div class="cart-items-list" id="cartItemsList">
+                    <p style="color: #94a3b8; text-align: center;">السلة فارغة حالياً</p>
+                </div>
+                <div style="margin-bottom: 15px; font-weight: bold; display: flex; justify-content: space-between;">
+                    <span>المجموع الكلي:</span>
+                    <span id="cartTotal" style="color: #38bdf8;">$0.00</span>
+                </div>
+                <button class="checkout-btn" onclick="checkout()">إتمام الطلب عبر التليجرام</button>
             </div>
-            <div style="margin-bottom: 15px; font-weight: bold; display: flex; justify-content: space-between;">
-                <span>المجموع الكلي:</span>
-                <span id="cartTotal" style="color: #38bdf8;">$0.00</span>
-            </div>
-            <button class="checkout-btn" onclick="checkout()">إتمام الطلب عبر التليجرام</button>
         </div>
     </div>
 
     <script>
         let cart = [];
+
+        function selectDevice(type) {
+            if (type === 'phone') {
+                // إخفاء واجهة الغلاف وإظهار المتجر
+                document.getElementById('welcomeScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('welcomeScreen').style.display = 'none';
+                    document.getElementById('mainStoreContent').style.display = 'block';
+                }, 500);
+            } else if (type === 'pc') {
+                // سنقوم بتعديل هذا الزر لاحقاً حسب طلبك
+                alert('قريباً سيتم تفعيل وضع الكمبيوتر!');
+            }
+        }
 
         function showProducts() {
             document.getElementById('heroSection').style.display = 'none';
