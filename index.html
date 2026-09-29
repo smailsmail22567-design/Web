@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- خط تجوال الحديث -->
+  <!-- خط تجوال -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
@@ -21,7 +21,6 @@
       min-height: 100vh;
     }
 
-    /* كبسولة التنقل */
     .nav-capsule {
       display: inline-flex;
       align-items: center;
@@ -67,18 +66,10 @@
     }
 
     .glass-card {
-      background: rgba(18, 18, 24, 0.7);
+      background: rgba(18, 18, 24, 0.75);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    /* أنماط السوشيال ميديا */
-    .social-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
     }
 
     .social-btn {
@@ -93,62 +84,33 @@
       color: #94a3b8;
       font-size: 1.6rem;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
     }
-
     .social-btn:hover {
       transform: translateY(-8px) scale(1.05);
-      color: #ffffff;
+      color: #fff;
     }
+    .social-btn.instagram:hover { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+    .social-btn.telegram:hover { background: #0088cc; }
+    .social-btn.youtube:hover { background: #ff0000; }
+    .social-btn.whatsapp:hover { background: #25d366; }
 
-    .social-btn.instagram:hover {
-      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-      box-shadow: 0 15px 30px rgba(214, 36, 159, 0.45);
-    }
-    .social-btn.telegram:hover {
-      background: #0088cc;
-      box-shadow: 0 15px 30px rgba(0, 136, 204, 0.45);
-    }
-    .social-btn.youtube:hover {
-      background: #ff0000;
-      box-shadow: 0 15px 30px rgba(255, 0, 0, 0.45);
-    }
-    .social-btn.whatsapp:hover {
-      background: #25d366;
-      box-shadow: 0 15px 30px rgba(37, 211, 102, 0.45);
-    }
-
-    /* انتقال الصفحات */
     .page-section {
       display: none;
       animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    .page-section.active {
-      display: flex;
-    }
+    .page-section.active { display: flex; }
     @keyframes fadeInSlide {
-      from {
-        opacity: 0;
-        transform: translateY(12px) scale(0.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
   </style>
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
-  <!-- شريط التنقل العلوي المتجاوب للهاتف والحاسوب -->
+  <!-- شريط التنقل العلوي -->
   <header class="sticky top-2 z-40 max-w-6xl mx-auto w-full px-2 sm:px-4">
     <div class="glass-card rounded-2xl p-2.5 sm:px-6 sm:py-3.5 flex flex-col gap-2.5 shadow-2xl">
-      
-      <!-- السطر الأول: الشعار + زر الأدمن + زر السلة -->
       <div class="flex items-center justify-between w-full">
         <!-- الشعار -->
         <div class="flex items-center gap-2 cursor-pointer select-none" onclick="navigateTo('home')">
@@ -160,23 +122,20 @@
           </span>
         </div>
 
-        <!-- الأزرار الجانبية: الأدمن والسلة -->
+        <!-- أزرار الأدمن والسلة -->
         <div class="flex items-center gap-2">
-          <!-- زر لوحة تحكم الأدمن البارز -->
-          <button onclick="openAdminModal()" class="px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-400/30 text-cyan-400 text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+          <button onclick="openAdminModal()" class="px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-400/30 text-cyan-400 text-xs font-bold transition flex items-center gap-1.5">
             <i class="fa-solid fa-shield-halved text-xs"></i>
             <span>لوحة الأدمن</span>
           </button>
-
-          <!-- زر سلة المشتريات -->
-          <button onclick="toggleCart()" class="relative p-2 rounded-xl glass-card hover:border-cyan-400/50 text-slate-200 transition">
+          <button onclick="toggleCart()" class="relative p-2 rounded-xl glass-card text-slate-200 transition">
             <i class="fa-solid fa-bag-shopping text-base text-cyan-400"></i>
             <span id="cart-count" class="absolute -top-1 -left-1 bg-cyan-400 text-slate-950 text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center">0</span>
           </button>
         </div>
       </div>
 
-      <!-- السطر الثاني: كبسولة التنقل كاملة ومرتاحة في الهاتف -->
+      <!-- كبسولة التنقل -->
       <div class="flex justify-center w-full">
         <nav class="nav-capsule flex items-center justify-between w-full sm:w-auto gap-1 sm:gap-4 px-3 py-1.5">
           <button onclick="navigateTo('home')" id="tab-home" class="nav-link-item active text-xs sm:text-sm px-2 py-1">الرئيسية</button>
@@ -185,7 +144,6 @@
           <button onclick="navigateTo('support')" id="tab-support" class="nav-link-item text-xs sm:text-sm px-2 py-1">تواصل معنا</button>
         </nav>
       </div>
-
     </div>
   </header>
 
@@ -193,7 +151,7 @@
   <section id="page-home" class="page-section active flex-col justify-center items-center max-w-4xl mx-auto px-4 py-16 text-center w-full flex-1">
     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-6">
       <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-      المتجر مفتوح الآن | تجربة فريدة
+      المتجر مفتوح الآن | تجربة تسوق تفاعلية
     </div>
 
     <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-[1.3] mb-6">
@@ -204,11 +162,11 @@
     </h1>
 
     <p class="text-slate-300/80 text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
-      نوفر لك أفضل المنتجات الحصرية بأعلى معايير الأمان والتسليم الفوري مع دعم متواصل على مدار الساعة.
+      نوفر لك أفضل المنتجات والمجسمات التفاعلية بأعلى جودة مع تسليم فوري وتجربة استخدام مميزة.
     </p>
 
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-      <button onclick="navigateTo('store')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition duration-300 flex items-center justify-center gap-3">
+      <button onclick="navigateTo('store')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition flex items-center justify-center gap-3">
         <span>تصفح المنتجات الآن</span>
         <i class="fa-solid fa-arrow-left"></i>
       </button>
@@ -217,26 +175,6 @@
         <span>الدعم الفني</span>
       </button>
     </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12 w-full max-w-3xl">
-      <div class="glass-card p-4 rounded-2xl text-center">
-        <i class="fa-solid fa-bolt text-cyan-400 text-xl mb-2"></i>
-        <h4 class="text-sm font-bold text-white">تسليم فوري</h4>
-        <p class="text-xs text-slate-400 mt-1">معالجة فورية وتلقائية للطلبات</p>
-      </div>
-
-      <div class="glass-card p-4 rounded-2xl text-center">
-        <i class="fa-solid fa-shield-halved text-cyan-400 text-xl mb-2"></i>
-        <h4 class="text-sm font-bold text-white">دفع آمن 100%</h4>
-        <p class="text-xs text-slate-400 mt-1">حماية تامة لكافة العمليات</p>
-      </div>
-
-      <div class="glass-card p-4 rounded-2xl text-center">
-        <i class="fa-solid fa-star text-cyan-400 text-xl mb-2"></i>
-        <h4 class="text-sm font-bold text-white">ضمان كامل</h4>
-        <p class="text-xs text-slate-400 mt-1">جودة مضمونة على جميع المنتجات</p>
-      </div>
-    </div>
   </section>
 
   <!-- الصفحة 2: المتجر -->
@@ -244,7 +182,7 @@
     <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
       <div>
         <h2 class="text-2xl sm:text-3xl font-black text-white">قائمة المنتجات</h2>
-        <p class="text-xs sm:text-sm text-slate-400 mt-1">تصفح المنتجات المتوفرة واطلب ما يناسبك</p>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1">تصفح المنتجات وتفاعل مع المجسمات مباشرة</p>
       </div>
     </div>
     <div id="products-grid" class="w-full"></div>
@@ -257,12 +195,10 @@
         <i class="fa-solid fa-truck-fast"></i>
       </div>
       <h2 class="text-2xl font-black text-white mb-2">تتبع حالة طلبك</h2>
-      <p class="text-xs text-slate-400 mb-6">أدخل رقم الطلب الخاص بك لمعرفة مرحلة التنفيذ والشحن</p>
+      <p class="text-xs text-slate-400 mb-6">أدخل رقم الطلب الخاص بك لمعرفة مرحلة التنفيذ</p>
       <div class="space-y-4">
-        <input type="text" placeholder="مثال: #ORD-9842" class="w-full px-5 py-3.5 rounded-xl bg-slate-900/80 border border-white/15 focus:border-cyan-400 text-white text-sm outline-none transition text-center tracking-wider font-mono">
-        <button class="w-full py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-xl transition">
-          بحث وتتبع
-        </button>
+        <input type="text" placeholder="مثال: #ORD-9842" class="w-full px-5 py-3.5 rounded-xl bg-slate-900 border border-white/15 focus:border-cyan-400 text-white text-sm outline-none text-center">
+        <button class="w-full py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-xl transition">بحث وتتبع</button>
       </div>
     </div>
   </section>
@@ -271,69 +207,37 @@
   <section id="page-support" class="page-section flex-col items-center justify-center max-w-2xl mx-auto px-4 py-16 w-full flex-1">
     <div class="text-center mb-8">
       <h2 class="text-2xl sm:text-3xl font-black text-white">مركز الدعم والتواصل</h2>
-      <p class="text-xs sm:text-sm text-slate-400 mt-2">اختر منصتك المفضلة للتواصل المباشر ومتابعة كل جديد</p>
+      <p class="text-xs sm:text-sm text-slate-400 mt-2">اختر منصتك المفضلة للتواصل المباشر</p>
     </div>
-
-    <div class="glass-card p-8 sm:p-10 rounded-3xl w-full flex flex-col items-center justify-center border border-white/10 shadow-2xl">
-      <span class="text-xs text-cyan-400 font-bold uppercase tracking-wider mb-6">تواصل فوري بنقرة واحدة</span>
-      <div class="social-container flex-wrap">
-        <a href="https://instagram.com" target="_blank" class="social-btn instagram" title="Instagram">
-          <i class="fa-brands fa-instagram"></i>
-        </a>
-        <a href="https://t.me" target="_blank" class="social-btn telegram" title="Telegram">
-          <i class="fa-brands fa-telegram"></i>
-        </a>
-        <a href="https://whatsapp.com" target="_blank" class="social-btn whatsapp" title="WhatsApp">
-          <i class="fa-brands fa-whatsapp"></i>
-        </a>
-        <a href="https://youtube.com" target="_blank" class="social-btn youtube" title="YouTube">
-          <i class="fa-brands fa-youtube"></i>
-        </a>
+    <div class="glass-card p-8 rounded-3xl w-full flex flex-col items-center justify-center border border-white/10 shadow-2xl">
+      <div class="flex items-center justify-center gap-5 flex-wrap">
+        <a href="https://instagram.com" target="_blank" class="social-btn instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://t.me" target="_blank" class="social-btn telegram"><i class="fa-brands fa-telegram"></i></a>
+        <a href="https://whatsapp.com" target="_blank" class="social-btn whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://youtube.com" target="_blank" class="social-btn youtube"><i class="fa-brands fa-youtube"></i></a>
       </div>
-      <p class="text-slate-400 text-xs mt-8">متواجدون لمساعدتك على مدار الساعة</p>
     </div>
   </section>
 
-  <!-- الصفحة 5: لوحة تحكم الأدمن -->
+  <!-- الصفحة 5: لوحة تحكم الأدمن (مع خاصية إضافة ملف/كود مجسم 3D) -->
   <section id="page-admin" class="page-section flex-col max-w-5xl mx-auto px-4 py-10 w-full flex-1">
     <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-lg">
-          <i class="fa-solid fa-gauge-high"></i>
+          <i class="fa-solid fa-code"></i>
         </div>
         <div>
-          <h2 class="text-xl sm:text-2xl font-black text-white">لوحة تحكم الإدارة</h2>
-          <p class="text-xs text-slate-400">إدارة المنتجات، الإحصائيات والطلبات</p>
+          <h2 class="text-xl sm:text-2xl font-black text-white">لوحة تحكم الأدمن</h2>
+          <p class="text-xs text-slate-400">إضافة منتجات عادية أو منتجات بمجسمات 3D تفاعلية</p>
         </div>
       </div>
-      <button onclick="adminLogout()" class="px-4 py-2 bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold hover:bg-red-500/30 transition">
-        تسجيل خروج
-      </button>
+      <button onclick="adminLogout()" class="px-4 py-2 bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold">تسجيل خروج</button>
     </div>
 
-    <!-- بطاقات الإحصائيات -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-      <div class="glass-card p-4 rounded-2xl border border-white/10">
-        <span class="text-xs text-slate-400">إجمالي المبيعات</span>
-        <h3 class="text-xl font-black text-cyan-400 mt-1">0.00 د.ج</h3>
-      </div>
-      <div class="glass-card p-4 rounded-2xl border border-white/10">
-        <span class="text-xs text-slate-400">الطلبات الكلية</span>
-        <h3 class="text-xl font-black text-emerald-400 mt-1">0</h3>
-      </div>
-      <div class="glass-card p-4 rounded-2xl border border-white/10">
-        <span class="text-xs text-slate-400">المنتجات المعروضة</span>
-        <h3 id="stat-products-count" class="text-xl font-black text-sky-400 mt-1">0</h3>
-      </div>
-      <div class="glass-card p-4 rounded-2xl border border-white/10">
-        <span class="text-xs text-slate-400">الزوار النشطون</span>
-        <h3 class="text-xl font-black text-purple-400 mt-1">1</h3>
-      </div>
-    </div>
-
-    <!-- نموذج إضافة منتج + قائمة المنتجات -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      <div class="lg:col-span-5 glass-card p-6 rounded-3xl border border-white/10">
+      
+      <!-- نموذج إضافة المنتج -->
+      <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10">
         <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
           <i class="fa-solid fa-plus-circle text-cyan-400"></i> إضافة منتج جديد
         </h3>
@@ -341,38 +245,54 @@
         <form id="add-product-form" onsubmit="handleCreateProduct(event)" class="space-y-4">
           <div>
             <label class="text-xs text-slate-400 block mb-1">اسم المنتج</label>
-            <input type="text" id="p-title" required placeholder="مثال: اشتراك نتفلكس شهر" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
+            <input type="text" id="p-title" required placeholder="مثال: كرة فضائية ثلاثية الأبعاد" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-xs text-slate-400 block mb-1">السعر (د.ج)</label>
-              <input type="number" id="p-price" required placeholder="1200" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
+              <input type="number" id="p-price" required placeholder="3500" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
             </div>
             <div>
-              <label class="text-xs text-slate-400 block mb-1">التصنيف</label>
-              <input type="text" id="p-category" required placeholder="رقمي / إلكترونيات" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
+              <label class="text-xs text-slate-400 block mb-1">نوع المنتج</label>
+              <select id="p-type" onchange="toggleInputType()" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-cyan-400 text-xs outline-none font-bold">
+                <option value="custom-3d">كود / ملف 3D تفاعلي (HTML / Three.js)</option>
+                <option value="image">صورة عادية (2D Image)</option>
+              </select>
             </div>
           </div>
 
           <div>
-            <label class="text-xs text-slate-400 block mb-1">رابط صورة المنتج (URL)</label>
-            <input type="url" id="p-image" required placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
+            <label class="text-xs text-slate-400 block mb-1">التصنيف</label>
+            <input type="text" id="p-category" required placeholder="تصاميم / مجسمات" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
           </div>
 
-          <button type="submit" class="w-full py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs transition shadow-lg shadow-cyan-500/20">
-            حفظ وإضافة للمتجر فوراً
+          <!-- خانة كود 3D (تظهر افتراضياً) -->
+          <div id="code-input-container">
+            <label class="text-xs text-slate-400 block mb-1">ألصق كود الـ HTML / 3D بالكامل هنا:</label>
+            <textarea id="p-code" rows="5" placeholder="ألصق كود صفحة 3D أو Three.js هنا..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs font-mono outline-none focus:border-cyan-400"></textarea>
+          </div>
+
+          <!-- خانة رابط الصورة العادية (تظهر عند اختيار صورة) -->
+          <div id="image-input-container" class="hidden">
+            <label class="text-xs text-slate-400 block mb-1">رابط صورة المنتج (URL)</label>
+            <input type="url" id="p-image-url" placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
+          </div>
+
+          <button type="submit" class="w-full py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs transition">
+            نشر المنتج في المتجر فوراً
           </button>
         </form>
       </div>
 
-      <div class="lg:col-span-7 glass-card p-6 rounded-3xl border border-white/10 flex flex-col">
+      <!-- قائمة المنتجات المنشورة -->
+      <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10 flex flex-col">
         <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-boxes-stacked text-cyan-400"></i> المنتجات الحالية
+          <i class="fa-solid fa-boxes-stacked text-cyan-400"></i> المنتجات الحالية (<span id="admin-count">0</span>)
         </h3>
-
         <div id="admin-products-list" class="space-y-3 flex-1 overflow-y-auto max-h-96"></div>
       </div>
+
     </div>
   </section>
 
@@ -384,32 +304,22 @@
       </div>
       <h3 class="text-lg font-black text-white mb-1">منطقة الإدارة</h3>
       <p class="text-xs text-slate-400 mb-5">يرجى إدخال رمز المرور السري للدخول</p>
-
       <form onsubmit="verifyAdminPass(event)" class="space-y-4">
         <input type="password" id="admin-pass-input" placeholder="كلمة المرور" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-white/20 text-center text-white text-sm outline-none focus:border-cyan-400 tracking-widest font-mono">
         <div id="login-error" class="text-xs text-red-400 hidden">كلمة المرور غير صحيحة!</div>
-        
         <div class="flex gap-2">
-          <button type="submit" class="flex-1 py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs transition">
-            دخول
-          </button>
-          <button type="button" onclick="closeAdminModal()" class="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs transition">
-            إلغاء
-          </button>
+          <button type="submit" class="flex-1 py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs">دخول</button>
+          <button type="button" onclick="closeAdminModal()" class="px-4 py-3 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs">إلغاء</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- سلة المشتريات الجانبية -->
+  <!-- سلة المشتريات -->
   <div id="cart-drawer" class="fixed inset-y-0 left-0 w-full sm:w-96 glass-card z-50 transform -translate-x-full transition-transform duration-300 flex flex-col p-6 border-r border-white/10 shadow-2xl">
     <div class="flex items-center justify-between pb-4 border-b border-white/10">
-      <h3 class="text-lg font-bold flex items-center gap-2">
-        <i class="fa-solid fa-cart-shopping text-cyan-400"></i> سلة المشتريات
-      </h3>
-      <button onclick="toggleCart()" class="text-slate-400 hover:text-white transition">
-        <i class="fa-solid fa-xmark text-xl"></i>
-      </button>
+      <h3 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-cyan-400"></i> سلة المشتريات</h3>
+      <button onclick="toggleCart()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
     </div>
     <div id="cart-items" class="flex-1 overflow-y-auto py-4 space-y-3">
       <p class="text-slate-500 text-center text-sm py-12">السلة فارغة حالياً</p>
@@ -419,9 +329,7 @@
         <span class="text-slate-400">المجموع:</span>
         <span id="cart-total" class="text-xl font-black text-cyan-400">0.00 د.ج</span>
       </div>
-      <button class="w-full py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-xl transition">
-        إتمام الطلب
-      </button>
+      <button class="w-full py-3.5 bg-cyan-500 text-slate-950 font-black rounded-xl">إتمام الطلب</button>
     </div>
   </div>
   <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden"></div>
@@ -431,31 +339,87 @@
     جميع الحقوق محفوظة &copy; 2026 متجر النخبة
   </footer>
 
-  <!-- جافاسكربت التحكم واللوحة -->
+  <!-- جافاسكربت التحكم والتشغيل -->
   <script>
     const ADMIN_PASS = "admin123";
     let isAdminLoggedIn = false;
 
-    let products = JSON.parse(localStorage.getItem('store_products')) || [];
+    // كود المجسم الكروي الافتراضي الذي أرسلته
+    const defaultThreeHtml = `<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { margin: 0; background-color: transparent; overflow: hidden; }
+    #planet-container { width: 100vw; height: 100vh; cursor: grab; }
+    #planet-container:active { cursor: grabbing; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"><\/script>
+</head>
+<body>
+  <div id="planet-container"></div>
+  <script>
+    const container = document.getElementById('planet-container');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 2.4;
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enableZoom = false;
+    const texture = new THREE.TextureLoader().load('https://i.postimg.cc/cJmbg7hf/IMG-20260929-210925-269.jpg');
+    const geometry = new THREE.SphereGeometry(1, 64, 64);
+    const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.7, metalness: 0.1 });
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    dirLight.position.set(5, 3, 5);
+    scene.add(dirLight);
+    function animate() {
+      requestAnimationFrame(animate);
+      sphere.rotation.y += 0.003;
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  <\/script>
+</body>
+</html>`;
+
+    let defaultProducts = [
+      {
+        id: 301,
+        title: "مجسم الكرة 3D التفاعلي",
+        price: 3500,
+        type: "custom-3d",
+        category: "تحف ومجسمات",
+        content: defaultThreeHtml
+      }
+    ];
+
+    let products = JSON.parse(localStorage.getItem('store_products_custom_3d')) || defaultProducts;
     let cart = [];
 
     function navigateTo(pageId) {
-      document.querySelectorAll('.page-section').forEach(section => {
-        section.classList.remove('active');
-      });
+      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('page-' + pageId);
+      if (target) target.classList.add('active');
 
-      const targetSection = document.getElementById('page-' + pageId);
-      if (targetSection) {
-        targetSection.classList.add('active');
-      }
-
-      document.querySelectorAll('.nav-link-item').forEach(btn => {
-        btn.classList.remove('active');
-      });
+      document.querySelectorAll('.nav-link-item').forEach(b => b.classList.remove('active'));
       const activeBtn = document.getElementById('tab-' + pageId);
-      if (activeBtn) {
-        activeBtn.classList.add('active');
-      }
+      if (activeBtn) activeBtn.classList.add('active');
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -477,8 +441,7 @@
 
     function verifyAdminPass(e) {
       e.preventDefault();
-      const pass = document.getElementById('admin-pass-input').value;
-      if (pass === ADMIN_PASS) {
+      if (document.getElementById('admin-pass-input').value === ADMIN_PASS) {
         isAdminLoggedIn = true;
         closeAdminModal();
         navigateTo('admin');
@@ -493,29 +456,47 @@
       navigateTo('home');
     }
 
+    function toggleInputType() {
+      const type = document.getElementById('p-type').value;
+      if (type === 'custom-3d') {
+        document.getElementById('code-input-container').classList.remove('hidden');
+        document.getElementById('image-input-container').classList.add('hidden');
+      } else {
+        document.getElementById('code-input-container').classList.add('hidden');
+        document.getElementById('image-input-container').classList.remove('hidden');
+      }
+    }
+
     function handleCreateProduct(e) {
       e.preventDefault();
+      const type = document.getElementById('p-type').value;
+      const content = type === 'custom-3d' 
+        ? document.getElementById('p-code').value 
+        : document.getElementById('p-image-url').value;
+
       const newProduct = {
         id: Date.now(),
         title: document.getElementById('p-title').value,
         price: parseFloat(document.getElementById('p-price').value),
+        type: type,
         category: document.getElementById('p-category').value,
-        image: document.getElementById('p-image').value
+        content: content
       };
 
       products.push(newProduct);
-      localStorage.setItem('store_products', JSON.stringify(products));
+      localStorage.setItem('store_products_custom_3d', JSON.stringify(products));
 
       document.getElementById('add-product-form').reset();
+      toggleInputType();
       renderAdminProducts();
       renderProducts();
-      alert('تمت إضافة المنتج بنجاح إلى المتجر!');
+      alert('تم نشر المنتج بنجاح في المتجر!');
     }
 
     function deleteProduct(id) {
-      if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+      if (confirm('هل تريد حذف هذا المنتج؟')) {
         products = products.filter(p => p.id !== id);
-        localStorage.setItem('store_products', JSON.stringify(products));
+        localStorage.setItem('store_products_custom_3d', JSON.stringify(products));
         renderAdminProducts();
         renderProducts();
       }
@@ -523,42 +504,40 @@
 
     function renderAdminProducts() {
       const list = document.getElementById('admin-products-list');
-      const countEl = document.getElementById('stat-products-count');
-      countEl.innerText = products.length;
+      document.getElementById('admin-count').innerText = products.length;
 
       if (products.length === 0) {
-        list.innerHTML = `<p class="text-xs text-slate-500 text-center py-8">لا توجد منتجات حالياً، أضف أول منتج!</p>`;
+        list.innerHTML = `<p class="text-xs text-slate-500 text-center py-8">لا توجد منتجات منشورة</p>`;
         return;
       }
 
       list.innerHTML = products.map(p => `
         <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border border-white/5">
           <div class="flex items-center gap-3">
-            <img src="${p.image}" class="w-10 h-10 rounded-lg object-cover">
+            <span class="text-xs px-2 py-1 rounded bg-cyan-500/20 text-cyan-400 font-bold">${p.type === 'custom-3d' ? '3D كود' : 'صورة'}</span>
             <div>
               <h4 class="text-xs font-bold text-white">${p.title}</h4>
               <span class="text-xs text-cyan-400 font-mono">${p.price} د.ج</span>
             </div>
           </div>
-          <button onclick="deleteProduct(${p.id})" class="px-2.5 py-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 text-xs transition">
+          <button onclick="deleteProduct(${p.id})" class="px-2.5 py-1.5 rounded-lg bg-red-500/10 text-red-400 text-xs">
             <i class="fa-solid fa-trash"></i>
           </button>
         </div>
       `).join('');
     }
 
+    // عرض المنتجات داخل شبكة المتجر
     function renderProducts() {
       const grid = document.getElementById('products-grid');
+
       if (products.length === 0) {
         grid.innerHTML = `
           <div class="glass-card max-w-md mx-auto p-8 rounded-3xl border border-white/10 text-center my-8">
             <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400 text-2xl">
               <i class="fa-solid fa-box-open"></i>
             </div>
-            <h3 class="text-lg font-bold text-white mb-2">سيتم إضافة المنتجات قريباً</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              نقوم حالياً بتجهيز باقة حصرية من أفضل المنتجات. تابعنا وكن أول من يستفيد من العروض!
-            </p>
+            <h3 class="text-lg font-bold text-white mb-2">لا توجد منتجات معروضة</h3>
           </div>
         `;
         return;
@@ -567,12 +546,27 @@
       grid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6";
       grid.innerHTML = products.map(p => `
         <div class="glass-card rounded-2xl overflow-hidden hover:border-cyan-400/40 transition duration-300 flex flex-col group">
-          <div class="relative overflow-hidden aspect-video bg-slate-900">
-            <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          
+          <div class="relative overflow-hidden aspect-square bg-slate-950/80 flex items-center justify-center">
+            ${p.type === 'custom-3d' ? `
+              <!-- تشغيل ملف/كود 3D داخل إطار معزول بالكامل وبأداء عالٍ -->
+              <iframe 
+                srcdoc="${p.content.replace(/"/g, '&quot;')}" 
+                class="w-full h-full border-none pointer-events-auto"
+                scrolling="no">
+              </iframe>
+              <span class="absolute bottom-2 left-2 bg-black/60 backdrop-blur-md border border-white/10 text-[10px] text-cyan-400 px-2 py-0.5 rounded-full pointer-events-none flex items-center gap-1">
+                <i class="fa-solid fa-arrows-rotate"></i> 3D تفاعلي
+              </span>
+            ` : `
+              <img src="${p.content}" alt="${p.title}" class="w-full h-full object-cover">
+            `}
+
             <span class="absolute top-3 right-3 bg-slate-950/80 border border-white/10 text-cyan-400 text-xs px-2.5 py-1 rounded-full">
               ${p.category}
             </span>
           </div>
+
           <div class="p-5 flex flex-col flex-1 justify-between">
             <h3 class="font-bold text-slate-100 text-base mb-4">${p.title}</h3>
             <div class="flex items-center justify-between pt-3 border-t border-white/5">
@@ -582,6 +576,7 @@
               </button>
             </div>
           </div>
+
         </div>
       `).join('');
     }
@@ -589,11 +584,7 @@
     function addToCart(id) {
       const product = products.find(p => p.id === id);
       const item = cart.find(i => i.id === id);
-      if (item) {
-        item.qty++;
-      } else {
-        cart.push({ ...product, qty: 1 });
-      }
+      if (item) { item.qty++; } else { cart.push({ ...product, qty: 1 }); }
       updateCartUI();
     }
 
@@ -612,11 +603,10 @@
       }
 
       itemsContainer.innerHTML = cart.map(item => `
-        <div class="flex items-center gap-3 bg-slate-900/60 p-3 rounded-xl border border-white/5">
-          <img src="${item.image}" class="w-12 h-12 rounded-lg object-cover">
+        <div class="flex items-center justify-between bg-slate-900/60 p-3 rounded-xl border border-white/5">
           <div class="flex-1 min-w-0">
             <h4 class="text-xs font-bold text-slate-200 truncate">${item.title}</h4>
-            <span class="text-xs text-cyan-400">${item.price} × ${item.qty}</span>
+            <span class="text-xs text-cyan-400">${item.price} د.ج × ${item.qty}</span>
           </div>
         </div>
       `).join('');
@@ -637,6 +627,9 @@
         overlay.classList.remove('hidden');
       }
     }
+
+    // تجهيز حقل الكود الافتراضي في الفورم
+    document.getElementById('p-code').value = defaultThreeHtml;
 
     renderProducts();
   </script>
