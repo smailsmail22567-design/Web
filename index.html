@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BLACK STORE | النخبة</title>
+  <title>BLACK STORE | المتجر الإلكتروني</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome -->
@@ -14,30 +14,75 @@
   <style>
     body {
       font-family: 'Tajawal', sans-serif;
-      /* خلفية جدار الطوب الأسود الخاص بك */
+      /* خلفية جدار الطوب الأسود */
       background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.8)), url('bg.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
       min-height: 100vh;
     }
+
+    /* كبسولة التنقل بنفس كود وتصميم الفيديو تماماً */
+    .nav-capsule {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 0.75rem 1.8rem;
+      border-radius: 9999px; /* شكل الكبسولة */
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    }
+
+    /* تأثير Underline Grow بالـ CSS */
+    .nav-link-item {
+      position: relative;
+      color: #94a3b8;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.75rem;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .nav-link-item::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -2px;
+      left: 50%;
+      background: #22d3ee; /* لون النيون Cyan */
+      box-shadow: 0 0 10px #22d3ee, 0 0 20px #22d3ee;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    /* عند التمرير بالماوس أو اللمس ينمو الخط */
+    .nav-link-item:hover,
+    .nav-link-item.active {
+      color: #ffffff;
+    }
+
+    .nav-link-item:hover::after,
+    .nav-link-item.active::after {
+      width: 80%; /* يمتد الخط */
+    }
+
+    /* بطاقات الزجاج */
     .glass-card {
       background: rgba(18, 18, 24, 0.7);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .glass-dock {
-      background: rgba(12, 12, 16, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(6, 182, 212, 0.2);
-    }
-    .neon-glow {
-      box-shadow: 0 0 35px -5px rgba(6, 182, 212, 0.45);
-    }
-    /* تأثير انتقال ناعم للصفحات */
+
+    /* تأثير التبديل السلس للصفحات */
     .page-section {
       display: none;
       animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -57,30 +102,48 @@
     }
   </style>
 </head>
-<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black pb-28">
+<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
-  <!-- شريط التنقل العلوي (Header) -->
-  <header class="sticky top-4 z-40 max-w-6xl mx-auto w-full px-4">
-    <nav class="glass-card rounded-2xl px-6 py-3.5 flex items-center justify-between shadow-2xl">
-      <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-slate-900 border border-cyan-400/40 flex items-center justify-center text-cyan-400 font-black text-xl">
-          <i class="fa-solid fa-cube"></i>
-        </div>
-        <span class="text-xl font-black bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
-          BLACK STORE
-        </span>
+  <!-- شريط التنقل العلوي مع الكبسولة في المنتصف وسلة المشتريات -->
+  <header class="sticky top-4 z-40 max-w-6xl mx-auto w-full px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+    
+    <!-- الشعار -->
+    <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-slate-900 border border-cyan-400/40 flex items-center justify-center text-cyan-400 font-black text-xl">
+        <i class="fa-solid fa-cube"></i>
       </div>
+      <span class="text-xl font-black bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
+        BLACK STORE
+      </span>
+    </div>
 
-      <!-- زر السلة المباشر -->
+    <!-- كبسولة التنقل (نفس شكل كود الفيديو مع Underline Grow) -->
+    <nav class="nav-capsule flex items-center gap-2 sm:gap-6">
+      <button onclick="navigateTo('home')" id="tab-home" class="nav-link-item active">HOME</button>
+      <button onclick="navigateTo('store')" id="tab-store" class="nav-link-item">STORE</button>
+      <button onclick="navigateTo('track')" id="tab-track" class="nav-link-item">TRACK</button>
+      <button onclick="navigateTo('support')" id="tab-support" class="nav-link-item">CONTACT</button>
+    </nav>
+
+    <!-- زر السلة التفاعلي -->
+    <div class="hidden sm:flex items-center">
       <button onclick="toggleCart()" class="relative p-2.5 rounded-xl glass-card hover:border-cyan-400/50 text-slate-200 transition">
         <i class="fa-solid fa-bag-shopping text-lg text-cyan-400"></i>
         <span id="cart-count" class="absolute -top-1.5 -left-1.5 bg-cyan-400 text-slate-950 text-xs font-black w-5 h-5 rounded-full flex items-center justify-center">0</span>
       </button>
-    </nav>
+    </div>
   </header>
 
-  <!-- ==================== الصفحة 1: الرئيسية (Home) ==================== -->
-  <section id="page-home" class="page-section active flex-col justify-center items-center max-w-4xl mx-auto px-4 py-12 text-center w-full flex-1">
+  <!-- زر سلة عائم للهواتف الذكية -->
+  <div class="sm:hidden fixed bottom-6 left-6 z-50">
+    <button onclick="toggleCart()" class="relative w-14 h-14 rounded-full bg-cyan-500 text-slate-950 flex items-center justify-center shadow-2xl font-black">
+      <i class="fa-solid fa-bag-shopping text-xl"></i>
+      <span id="mobile-cart-count" class="absolute -top-1 -right-1 bg-white text-slate-950 text-xs font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-cyan-500">0</span>
+    </button>
+  </div>
+
+  <!-- ==================== الصفحة 1: الرئيسية (HOME) ==================== -->
+  <section id="page-home" class="page-section active flex-col justify-center items-center max-w-4xl mx-auto px-4 py-16 text-center w-full flex-1">
     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-6">
       <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
       المتجر مفتوح الآن | تجربة فريدة
@@ -98,7 +161,7 @@
     </p>
 
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-      <button onclick="navigateTo('store')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition duration-300 neon-glow flex items-center justify-center gap-3">
+      <button onclick="navigateTo('store')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition duration-300 flex items-center justify-center gap-3">
         <span>تصفح المنتجات الآن</span>
         <i class="fa-solid fa-arrow-left"></i>
       </button>
@@ -130,106 +193,63 @@
     </div>
   </section>
 
-  <!-- ==================== الصفحة 2: المتجر والمنتجات (Store) ==================== -->
-  <section id="page-store" class="page-section flex-col max-w-6xl mx-auto px-4 py-8 w-full flex-1">
+  <!-- ==================== الصفحة 2: المتجر (STORE) ==================== -->
+  <section id="page-store" class="page-section flex-col max-w-6xl mx-auto px-4 py-12 w-full flex-1">
     <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
       <div>
         <h2 class="text-2xl sm:text-3xl font-black text-white">قائمة المنتجات</h2>
         <p class="text-xs sm:text-sm text-slate-400 mt-1">تصفح المنتجات المتوفرة واطلب ما يناسبك</p>
       </div>
-      <button onclick="navigateTo('home')" class="text-xs text-cyan-400 hover:underline flex items-center gap-1">
-        العودة للرئيسية <i class="fa-solid fa-angle-left"></i>
-      </button>
     </div>
-
-    <!-- شبكة المنتجات (فارغة مؤقتاً) -->
-    <div id="products-grid" class="w-full">
-      <!-- تظهر هنا المنتجات أو رسالة قريباً -->
-    </div>
+    <div id="products-grid" class="w-full"></div>
   </section>
 
-  <!-- ==================== الصفحة 3: تتبع الطلب (Track) ==================== -->
-  <section id="page-track" class="page-section flex-col items-center justify-center max-w-xl mx-auto px-4 py-12 w-full text-center flex-1">
+  <!-- ==================== الصفحة 3: تتبع الطلب (TRACK) ==================== -->
+  <section id="page-track" class="page-section flex-col items-center justify-center max-w-xl mx-auto px-4 py-16 w-full text-center flex-1">
     <div class="glass-card p-8 rounded-3xl w-full border border-white/10 shadow-2xl">
       <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400 text-2xl">
         <i class="fa-solid fa-truck-fast"></i>
       </div>
       <h2 class="text-2xl font-black text-white mb-2">تتبع حالة طلبك</h2>
-      <p class="text-xs text-slate-400 mb-6">أدخل رقم الطلب أو المعرّف الخاص بك لمعرفة مرحلة التنفيذ والشحن</p>
-
+      <p class="text-xs text-slate-400 mb-6">أدخل رقم الطلب الخاص بك لمعرفة مرحلة التنفيذ</p>
       <div class="space-y-4">
         <input type="text" placeholder="مثال: #ORD-9842" class="w-full px-5 py-3.5 rounded-xl bg-slate-900/80 border border-white/15 focus:border-cyan-400 text-white text-sm outline-none transition text-center tracking-wider font-mono">
-        <button class="w-full py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-xl transition neon-glow">
+        <button class="w-full py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-xl transition">
           بحث وتتبع
         </button>
       </div>
     </div>
   </section>
 
-  <!-- ==================== الصفحة 4: الدعم والتواصل (Support) ==================== -->
-  <section id="page-support" class="page-section flex-col items-center justify-center max-w-2xl mx-auto px-4 py-12 w-full flex-1">
+  <!-- ==================== الصفحة 4: الدعم والتواصل (CONTACT) ==================== -->
+  <section id="page-support" class="page-section flex-col items-center justify-center max-w-2xl mx-auto px-4 py-16 w-full flex-1">
     <div class="text-center mb-8">
       <h2 class="text-2xl sm:text-3xl font-black text-white">مركز الدعم والمساعدة</h2>
-      <p class="text-xs sm:text-sm text-slate-400 mt-2">فريقنا جاهز لمساعدتك والرد على استفساراتك فوراً</p>
+      <p class="text-xs sm:text-sm text-slate-400 mt-2">فريقنا جاهز للرد على جميع استفساراتك فوراً</p>
     </div>
-
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-      <!-- خيار تليجرام -->
       <a href="https://t.me/" target="_blank" class="glass-card p-5 rounded-2xl flex items-center gap-4 hover:border-cyan-400/50 transition group">
         <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
           <i class="fa-brands fa-telegram"></i>
         </div>
         <div class="text-right">
           <h4 class="text-sm font-bold text-white">تيليجرام مباشر</h4>
-          <p class="text-xs text-slate-400">رد فوري على المحادثات</p>
+          <p class="text-xs text-slate-400">تواصل فوري مع الدعم</p>
         </div>
       </a>
-
-      <!-- خيار واتساب أو البريد -->
       <a href="#" class="glass-card p-5 rounded-2xl flex items-center gap-4 hover:border-cyan-400/50 transition group">
         <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl group-hover:scale-110 transition">
           <i class="fa-brands fa-whatsapp"></i>
         </div>
         <div class="text-right">
           <h4 class="text-sm font-bold text-white">واتساب</h4>
-          <p class="text-xs text-slate-400">تواصل سريع مع الإدارة</p>
+          <p class="text-xs text-slate-400">خدمة العملاء السريعة</p>
         </div>
       </a>
     </div>
   </section>
 
-  <!-- ==================== شريط التنقل السفلي الفاخر (Floating Glass Dock) ==================== -->
-  <div class="fixed bottom-5 inset-x-0 flex justify-center z-50 px-4 pointer-events-none">
-    <nav class="glass-dock rounded-2xl px-3 py-2 flex items-center gap-2 sm:gap-4 pointer-events-auto">
-      
-      <!-- زر 1: الرئيسية -->
-      <button onclick="navigateTo('home')" id="tab-home" class="nav-btn px-4 py-2 rounded-xl flex items-center gap-2 text-xs font-bold transition duration-300 text-cyan-400 bg-cyan-500/15 border border-cyan-400/30">
-        <i class="fa-solid fa-house text-sm"></i>
-        <span class="hidden sm:inline">الرئيسية</span>
-      </button>
-
-      <!-- زر 2: المتجر -->
-      <button onclick="navigateTo('store')" id="tab-store" class="nav-btn px-4 py-2 rounded-xl flex items-center gap-2 text-xs font-bold transition duration-300 text-slate-400 hover:text-white">
-        <i class="fa-solid fa-store text-sm"></i>
-        <span class="hidden sm:inline">المتجر</span>
-      </button>
-
-      <!-- زر 3: التتبع -->
-      <button onclick="navigateTo('track')" id="tab-track" class="nav-btn px-4 py-2 rounded-xl flex items-center gap-2 text-xs font-bold transition duration-300 text-slate-400 hover:text-white">
-        <i class="fa-solid fa-location-crosshairs text-sm"></i>
-        <span class="hidden sm:inline">تتبع الطلب</span>
-      </button>
-
-      <!-- زر 4: الدعم -->
-      <button onclick="navigateTo('support')" id="tab-support" class="nav-btn px-4 py-2 rounded-xl flex items-center gap-2 text-xs font-bold transition duration-300 text-slate-400 hover:text-white">
-        <i class="fa-solid fa-headset text-sm"></i>
-        <span class="hidden sm:inline">الدعم</span>
-      </button>
-
-    </nav>
-  </div>
-
-  <!-- نافذة سلة المشتريات المنزلقة -->
+  <!-- سلة المشتريات الجانبية -->
   <div id="cart-drawer" class="fixed inset-y-0 left-0 w-full sm:w-96 glass-card z-50 transform -translate-x-full transition-transform duration-300 flex flex-col p-6 border-r border-white/10 shadow-2xl">
     <div class="flex items-center justify-between pb-4 border-b border-white/10">
       <h3 class="text-lg font-bold flex items-center gap-2">
@@ -247,43 +267,42 @@
         <span class="text-slate-400">المجموع:</span>
         <span id="cart-total" class="text-xl font-black text-cyan-400">0.00 د.ج</span>
       </div>
-      <button class="w-full py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-xl transition neon-glow">
+      <button class="w-full py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-xl transition">
         إتمام الطلب
       </button>
     </div>
   </div>
   <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden"></div>
 
-  <!-- جافاسكربت التحكم بالتنقل والصفحات -->
+  <!-- التذييل -->
+  <footer class="py-8 text-center text-xs text-slate-500 border-t border-white/5">
+    جميع الحقوق محفوظة &copy; 2026 BLACK STORE
+  </footer>
+
+  <!-- جافاسكربت التنقل والسلة -->
   <script>
-    // دالة الانتقال السلس بين الصفحات
     function navigateTo(pageId) {
-      // إخفاء كل الأقسام
       document.querySelectorAll('.page-section').forEach(section => {
         section.classList.remove('active');
       });
 
-      // إظهار القسم المطلوب مع تأثير الحركة
       const targetSection = document.getElementById('page-' + pageId);
       if (targetSection) {
         targetSection.classList.add('active');
       }
 
-      // تحديث شكل أزرار التنقل السفلية
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.className = "nav-btn px-4 py-2 rounded-xl flex items-center gap-2 text-xs font-bold transition duration-300 text-slate-400 hover:text-white";
+      // تحريك مؤشر Underline Grow إلى الزر المضغوط
+      document.querySelectorAll('.nav-link-item').forEach(btn => {
+        btn.classList.remove('active');
       });
-
       const activeBtn = document.getElementById('tab-' + pageId);
       if (activeBtn) {
-        activeBtn.className = "nav-btn px-4 py-2 rounded-xl flex items-center gap-2 text-xs font-bold transition duration-300 text-cyan-400 bg-cyan-500/15 border border-cyan-400/30";
+        activeBtn.classList.add('active');
       }
 
-      // التمرير لأعلى الشاشة تلقائياً
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // إدارة السلة
     function toggleCart() {
       const drawer = document.getElementById('cart-drawer');
       const overlay = document.getElementById('cart-overlay');
@@ -297,7 +316,6 @@
       }
     }
 
-    // تجهيز قسم المنتجات الفارغ
     const products = [];
     function renderProducts() {
       const grid = document.getElementById('products-grid');
