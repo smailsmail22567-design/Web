@@ -22,29 +22,27 @@
       min-height: 100vh;
     }
 
-    /* كبسولة التنقل بنفس كود وتصميم الفيديو تماماً */
+    /* كبسولة التنقل الزجاجية */
     .nav-capsule {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 0.75rem 1.8rem;
-      border-radius: 9999px; /* شكل الكبسولة */
+      background: rgba(0, 0, 0, 0.55);
+      padding: 0.65rem 1.6rem;
+      border-radius: 9999px;
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1.5px solid rgba(255, 255, 255, 0.12);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     }
 
-    /* تأثير Underline Grow بالـ CSS */
+    /* تأثير Underline Grow بالعربية */
     .nav-link-item {
       position: relative;
       color: #94a3b8;
       font-weight: 700;
-      font-size: 0.82rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.4rem 0.75rem;
+      font-size: 0.9rem;
+      padding: 0.35rem 0.8rem;
       transition: color 0.3s ease;
       cursor: pointer;
     }
@@ -56,14 +54,13 @@
       height: 2px;
       bottom: -2px;
       left: 50%;
-      background: #22d3ee; /* لون النيون Cyan */
+      background: #22d3ee;
       box-shadow: 0 0 10px #22d3ee, 0 0 20px #22d3ee;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translateX(-50%);
       border-radius: 2px;
     }
 
-    /* عند التمرير بالماوس أو اللمس ينمو الخط */
     .nav-link-item:hover,
     .nav-link-item.active {
       color: #ffffff;
@@ -71,7 +68,7 @@
 
     .nav-link-item:hover::after,
     .nav-link-item.active::after {
-      width: 80%; /* يمتد الخط */
+      width: 75%;
     }
 
     /* بطاقات الزجاج */
@@ -82,7 +79,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* تأثير التبديل السلس للصفحات */
+    /* انتقال الصفحات */
     .page-section {
       display: none;
       animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -104,7 +101,7 @@
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
-  <!-- شريط التنقل العلوي مع الكبسولة في المنتصف وسلة المشتريات -->
+  <!-- شريط التنقل العلوي -->
   <header class="sticky top-4 z-40 max-w-6xl mx-auto w-full px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
     
     <!-- الشعار -->
@@ -113,19 +110,19 @@
         <i class="fa-solid fa-cube"></i>
       </div>
       <span class="text-xl font-black bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
-        BLACK STORE
+        متجر النخبة
       </span>
     </div>
 
-    <!-- كبسولة التنقل (نفس شكل كود الفيديو مع Underline Grow) -->
-    <nav class="nav-capsule flex items-center gap-2 sm:gap-6">
-      <button onclick="navigateTo('home')" id="tab-home" class="nav-link-item active">HOME</button>
-      <button onclick="navigateTo('store')" id="tab-store" class="nav-link-item">STORE</button>
-      <button onclick="navigateTo('track')" id="tab-track" class="nav-link-item">TRACK</button>
-      <button onclick="navigateTo('support')" id="tab-support" class="nav-link-item">CONTACT</button>
+    <!-- كبسولة التنقل بالعربية -->
+    <nav class="nav-capsule flex items-center gap-2 sm:gap-4">
+      <button onclick="navigateTo('home')" id="tab-home" class="nav-link-item active">الرئيسية</button>
+      <button onclick="navigateTo('store')" id="tab-store" class="nav-link-item">المتجر</button>
+      <button onclick="navigateTo('track')" id="tab-track" class="nav-link-item">تتبع الطلب</button>
+      <button onclick="navigateTo('support')" id="tab-support" class="nav-link-item">تواصل معنا</button>
     </nav>
 
-    <!-- زر السلة التفاعلي -->
+    <!-- زر السلة المباشر -->
     <div class="hidden sm:flex items-center">
       <button onclick="toggleCart()" class="relative p-2.5 rounded-xl glass-card hover:border-cyan-400/50 text-slate-200 transition">
         <i class="fa-solid fa-bag-shopping text-lg text-cyan-400"></i>
@@ -142,7 +139,7 @@
     </button>
   </div>
 
-  <!-- ==================== الصفحة 1: الرئيسية (HOME) ==================== -->
+  <!-- الصفحة 1: الرئيسية -->
   <section id="page-home" class="page-section active flex-col justify-center items-center max-w-4xl mx-auto px-4 py-16 text-center w-full flex-1">
     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-6">
       <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
@@ -171,7 +168,6 @@
       </button>
     </div>
 
-    <!-- ميزات سريعة -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12 w-full max-w-3xl">
       <div class="glass-card p-4 rounded-2xl text-center">
         <i class="fa-solid fa-bolt text-cyan-400 text-xl mb-2"></i>
@@ -193,7 +189,7 @@
     </div>
   </section>
 
-  <!-- ==================== الصفحة 2: المتجر (STORE) ==================== -->
+  <!-- الصفحة 2: المتجر -->
   <section id="page-store" class="page-section flex-col max-w-6xl mx-auto px-4 py-12 w-full flex-1">
     <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
       <div>
@@ -204,14 +200,14 @@
     <div id="products-grid" class="w-full"></div>
   </section>
 
-  <!-- ==================== الصفحة 3: تتبع الطلب (TRACK) ==================== -->
+  <!-- الصفحة 3: تتبع الطلب -->
   <section id="page-track" class="page-section flex-col items-center justify-center max-w-xl mx-auto px-4 py-16 w-full text-center flex-1">
     <div class="glass-card p-8 rounded-3xl w-full border border-white/10 shadow-2xl">
       <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400 text-2xl">
         <i class="fa-solid fa-truck-fast"></i>
       </div>
       <h2 class="text-2xl font-black text-white mb-2">تتبع حالة طلبك</h2>
-      <p class="text-xs text-slate-400 mb-6">أدخل رقم الطلب الخاص بك لمعرفة مرحلة التنفيذ</p>
+      <p class="text-xs text-slate-400 mb-6">أدخل رقم الطلب الخاص بك لمعرفة مرحلة التنفيذ والشحن</p>
       <div class="space-y-4">
         <input type="text" placeholder="مثال: #ORD-9842" class="w-full px-5 py-3.5 rounded-xl bg-slate-900/80 border border-white/15 focus:border-cyan-400 text-white text-sm outline-none transition text-center tracking-wider font-mono">
         <button class="w-full py-3.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black rounded-xl transition">
@@ -221,7 +217,7 @@
     </div>
   </section>
 
-  <!-- ==================== الصفحة 4: الدعم والتواصل (CONTACT) ==================== -->
+  <!-- الصفحة 4: تواصل معنا -->
   <section id="page-support" class="page-section flex-col items-center justify-center max-w-2xl mx-auto px-4 py-16 w-full flex-1">
     <div class="text-center mb-8">
       <h2 class="text-2xl sm:text-3xl font-black text-white">مركز الدعم والمساعدة</h2>
@@ -276,10 +272,10 @@
 
   <!-- التذييل -->
   <footer class="py-8 text-center text-xs text-slate-500 border-t border-white/5">
-    جميع الحقوق محفوظة &copy; 2026 BLACK STORE
+    جميع الحقوق محفوظة &copy; 2026 متجر النخبة
   </footer>
 
-  <!-- جافاسكربت التنقل والسلة -->
+  <!-- جافاسكربت -->
   <script>
     function navigateTo(pageId) {
       document.querySelectorAll('.page-section').forEach(section => {
@@ -291,7 +287,6 @@
         targetSection.classList.add('active');
       }
 
-      // تحريك مؤشر Underline Grow إلى الزر المضغوط
       document.querySelectorAll('.nav-link-item').forEach(btn => {
         btn.classList.remove('active');
       });
