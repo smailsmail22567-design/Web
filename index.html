@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- خط تجوال -->
+  <!-- خط تجوال الحديث -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
@@ -167,7 +167,7 @@
 
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
       <button onclick="navigateTo('store')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition flex items-center justify-center gap-3">
-        <span>تصفح المنتجات الآن</span>
+        <span>تصفح السلع الآن</span>
         <i class="fa-solid fa-arrow-left"></i>
       </button>
       <button onclick="navigateTo('support')" class="w-full sm:w-auto px-7 py-4 rounded-xl glass-card text-slate-200 font-bold text-base transition border border-white/10 flex items-center justify-center gap-2">
@@ -181,8 +181,8 @@
   <section id="page-store" class="page-section flex-col max-w-6xl mx-auto px-4 py-12 w-full flex-1">
     <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
       <div>
-        <h2 class="text-2xl sm:text-3xl font-black text-white">قائمة المنتجات</h2>
-        <p class="text-xs sm:text-sm text-slate-400 mt-1">تصفح المنتجات وتفاعل مع المجسمات مباشرة</p>
+        <h2 class="text-2xl sm:text-3xl font-black text-white">قائمة السلع والمنتجات</h2>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1">تصفح السلع وتفاعل مع المجسمات الثلاثية الأبعاد مباشرة</p>
       </div>
     </div>
     <div id="products-grid" class="w-full"></div>
@@ -219,33 +219,40 @@
     </div>
   </section>
 
-  <!-- الصفحة 5: لوحة تحكم الأدمن (مع خاصية إضافة ملف/كود مجسم 3D) -->
+  <!-- الصفحة 5: لوحة تحكم الأدمن (مع حل مرن لإضافة السلع المتعددة) -->
   <section id="page-admin" class="page-section flex-col max-w-5xl mx-auto px-4 py-10 w-full flex-1">
     <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-lg">
-          <i class="fa-solid fa-code"></i>
+          <i class="fa-solid fa-cart-plus"></i>
         </div>
         <div>
           <h2 class="text-xl sm:text-2xl font-black text-white">لوحة تحكم الأدمن</h2>
-          <p class="text-xs text-slate-400">إضافة منتجات عادية أو منتجات بمجسمات 3D تفاعلية</p>
+          <p class="text-xs text-slate-400">إضافة وإدارة سلع متعددة (3D أو صور عادية)</p>
         </div>
       </div>
-      <button onclick="adminLogout()" class="px-4 py-2 bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold">تسجيل خروج</button>
+      <div class="flex gap-2">
+        <button onclick="resetToDefaults()" class="px-3 py-1.5 bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 rounded-xl text-xs font-bold">
+          إعادة ضبط المصنع
+        </button>
+        <button onclick="adminLogout()" class="px-3 py-1.5 bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold">
+          تسجيل خروج
+        </button>
+      </div>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
-      <!-- نموذج إضافة المنتج -->
+      <!-- نموذج إضافة سلعة جديدة -->
       <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10">
         <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-plus-circle text-cyan-400"></i> إضافة منتج جديد
+          <i class="fa-solid fa-plus-circle text-cyan-400"></i> إضافة سلعة جديدة
         </h3>
 
         <form id="add-product-form" onsubmit="handleCreateProduct(event)" class="space-y-4">
           <div>
-            <label class="text-xs text-slate-400 block mb-1">اسم المنتج</label>
-            <input type="text" id="p-title" required placeholder="مثال: كرة فضائية ثلاثية الأبعاد" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
+            <label class="text-xs text-slate-400 block mb-1">اسم السلعة</label>
+            <input type="text" id="p-title" required placeholder="مثال: كرة فضائية أو حذاء رياضي" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
           </div>
 
           <div class="grid grid-cols-2 gap-3">
@@ -254,41 +261,50 @@
               <input type="number" id="p-price" required placeholder="3500" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
             </div>
             <div>
-              <label class="text-xs text-slate-400 block mb-1">نوع المنتج</label>
-              <select id="p-type" onchange="toggleInputType()" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-cyan-400 text-xs outline-none font-bold">
-                <option value="custom-3d">كود / ملف 3D تفاعلي (HTML / Three.js)</option>
-                <option value="image">صورة عادية (2D Image)</option>
-              </select>
+              <label class="text-xs text-slate-400 block mb-1">التصنيف</label>
+              <input type="text" id="p-category" required placeholder="مجسمات / إلكترونيات" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
             </div>
           </div>
 
           <div>
-            <label class="text-xs text-slate-400 block mb-1">التصنيف</label>
-            <input type="text" id="p-category" required placeholder="تصاميم / مجسمات" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
+            <label class="text-xs text-slate-400 block mb-1">نوع السلعة وطريقة الإضافة</label>
+            <select id="p-type" onchange="toggleInputType()" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-cyan-400 text-xs outline-none font-bold">
+              <option value="upload-file">رفع ملف 3D مباشر من الهاتف (.html)</option>
+              <option value="code-3d">لصق كود 3D يدوياً (Paste Code)</option>
+              <option value="image">صورة عادية برابط (2D Image URL)</option>
+            </select>
           </div>
 
-          <!-- خانة كود 3D (تظهر افتراضياً) -->
-          <div id="code-input-container">
-            <label class="text-xs text-slate-400 block mb-1">ألصق كود الـ HTML / 3D بالكامل هنا:</label>
-            <textarea id="p-code" rows="5" placeholder="ألصق كود صفحة 3D أو Three.js هنا..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs font-mono outline-none focus:border-cyan-400"></textarea>
+          <!-- خيار 1: رفع ملف من الهاتف مباشرة -->
+          <div id="file-input-container">
+            <label class="text-xs text-slate-400 block mb-1">اختر ملف الـ 3D من جهازك:</label>
+            <input type="file" id="p-file" accept=".html,.htm,.txt" onchange="handleFileUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-slate-300 text-xs outline-none">
+            <span class="text-[10px] text-slate-500 mt-1 block">يمكنك اختيار أي ملف .html لسلعة ثلاثية الأبعاد وسيقوم النظام بتضمينه فوراً.</span>
           </div>
 
-          <!-- خانة رابط الصورة العادية (تظهر عند اختيار صورة) -->
+          <!-- خيار 2: لصق الكود يدوياً -->
+          <div id="code-input-container" class="hidden">
+            <label class="text-xs text-slate-400 block mb-1">ألصق كود الـ 3D هنا:</label>
+            <textarea id="p-code" rows="4" placeholder="ألصق كود الـ HTML / Three.js هنا..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs font-mono outline-none focus:border-cyan-400"></textarea>
+          </div>
+
+          <!-- خيار 3: رابط صورة -->
           <div id="image-input-container" class="hidden">
-            <label class="text-xs text-slate-400 block mb-1">رابط صورة المنتج (URL)</label>
+            <label class="text-xs text-slate-400 block mb-1">رابط صورة السلعة (URL)</label>
             <input type="url" id="p-image-url" placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
           </div>
 
           <button type="submit" class="w-full py-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl text-xs transition">
-            نشر المنتج في المتجر فوراً
+            حفظ وإضافة السلعة للمتجر الآن
           </button>
         </form>
       </div>
 
-      <!-- قائمة المنتجات المنشورة -->
+      <!-- قائمة السلع الحالية مع إمكانية حذف أي سلعة -->
       <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10 flex flex-col">
-        <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-boxes-stacked text-cyan-400"></i> المنتجات الحالية (<span id="admin-count">0</span>)
+        <h3 class="text-base font-bold text-white mb-4 flex items-center justify-between">
+          <span class="flex items-center gap-2"><i class="fa-solid fa-boxes-stacked text-cyan-400"></i> السلع المتوفرة (<span id="admin-count">0</span>)</span>
+          <button onclick="clearAllProducts()" class="text-[10px] text-red-400 hover:underline">حذف كل السلع</button>
         </h3>
         <div id="admin-products-list" class="space-y-3 flex-1 overflow-y-auto max-h-96"></div>
       </div>
@@ -303,7 +319,7 @@
         <i class="fa-solid fa-shield-cat"></i>
       </div>
       <h3 class="text-lg font-black text-white mb-1">منطقة الإدارة</h3>
-      <p class="text-xs text-slate-400 mb-5">يرجى إدخال رمز المرور السري للدخول</p>
+      <p class="text-xs text-slate-400 mb-5">أدخل رمز المرور السري</p>
       <form onsubmit="verifyAdminPass(event)" class="space-y-4">
         <input type="password" id="admin-pass-input" placeholder="كلمة المرور" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-white/20 text-center text-white text-sm outline-none focus:border-cyan-400 tracking-widest font-mono">
         <div id="login-error" class="text-xs text-red-400 hidden">كلمة المرور غير صحيحة!</div>
@@ -339,20 +355,20 @@
     جميع الحقوق محفوظة &copy; 2026 متجر النخبة
   </footer>
 
-  <!-- جافاسكربت التحكم والتشغيل -->
+  <!-- جافاسكربت التحكم وإدارة السلع المتعددة -->
   <script>
     const ADMIN_PASS = "admin123";
     let isAdminLoggedIn = false;
+    let uploadedFileContent = "";
 
-    // كود المجسم الكروي الافتراضي الذي أرسلته
-    const defaultThreeHtml = `<!DOCTYPE html>
+    // السلعة الأولى التجريبية الافتراضية
+    const initialSphereHtml = `<!DOCTYPE html>
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
   <style>
     body { margin: 0; background-color: transparent; overflow: hidden; }
     #planet-container { width: 100vw; height: 100vh; cursor: grab; }
-    #planet-container:active { cursor: grabbing; }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"><\/script>
@@ -370,15 +386,11 @@
     container.appendChild(renderer.domElement);
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.dampingFactor = 0.05;
     controls.enableZoom = false;
     const texture = new THREE.TextureLoader().load('https://i.postimg.cc/cJmbg7hf/IMG-20260929-210925-269.jpg');
-    const geometry = new THREE.SphereGeometry(1, 64, 64);
-    const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.7, metalness: 0.1 });
-    const sphere = new THREE.Mesh(geometry, material);
+    const sphere = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), new THREE.MeshStandardMaterial({ map: texture, roughness: 0.7, metalness: 0.1 }));
     scene.add(sphere);
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
-    scene.add(ambientLight);
+    scene.add(new THREE.AmbientLight(0xffffff, 1.2));
     const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
     dirLight.position.set(5, 3, 5);
     scene.add(dirLight);
@@ -389,27 +401,22 @@
       renderer.render(scene, camera);
     }
     animate();
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
   <\/script>
 </body>
 </html>`;
 
     let defaultProducts = [
       {
-        id: 301,
-        title: "مجسم الكرة 3D التفاعلي",
+        id: 101,
+        title: "مجسم الكرة 3D الأساسية",
         price: 3500,
-        type: "custom-3d",
+        type: "3d",
         category: "تحف ومجسمات",
-        content: defaultThreeHtml
+        content: initialSphereHtml
       }
     ];
 
-    let products = JSON.parse(localStorage.getItem('store_products_custom_3d')) || defaultProducts;
+    let products = JSON.parse(localStorage.getItem('my_store_products_v3')) || defaultProducts;
     let cart = [];
 
     function navigateTo(pageId) {
@@ -458,45 +465,95 @@
 
     function toggleInputType() {
       const type = document.getElementById('p-type').value;
-      if (type === 'custom-3d') {
-        document.getElementById('code-input-container').classList.remove('hidden');
-        document.getElementById('image-input-container').classList.add('hidden');
-      } else {
-        document.getElementById('code-input-container').classList.add('hidden');
-        document.getElementById('image-input-container').classList.remove('hidden');
-      }
+      document.getElementById('file-input-container').classList.toggle('hidden', type !== 'upload-file');
+      document.getElementById('code-input-container').classList.toggle('hidden', type !== 'code-3d');
+      document.getElementById('image-input-container').classList.toggle('hidden', type !== 'image');
     }
 
+    // قراءة الملف المرفوع مباشرة من الهاتف
+    function handleFileUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        uploadedFileContent = event.target.result;
+      };
+      reader.readAsText(file);
+    }
+
+    // حفظ السلعة الجديدة بدون قيود
     function handleCreateProduct(e) {
       e.preventDefault();
       const type = document.getElementById('p-type').value;
-      const content = type === 'custom-3d' 
-        ? document.getElementById('p-code').value 
-        : document.getElementById('p-image-url').value;
+      let finalContent = "";
+      let productType = "3d";
+
+      if (type === 'upload-file') {
+        if (!uploadedFileContent) {
+          alert('يرجى اختيار ملف 3D أولاً من جهازك!');
+          return;
+        }
+        finalContent = uploadedFileContent;
+      } else if (type === 'code-3d') {
+        finalContent = document.getElementById('p-code').value;
+        if (!finalContent.trim()) {
+          alert('يرجى لصق كود الـ 3D في الخانة!');
+          return;
+        }
+      } else {
+        finalContent = document.getElementById('p-image-url').value;
+        productType = "image";
+      }
 
       const newProduct = {
         id: Date.now(),
         title: document.getElementById('p-title').value,
         price: parseFloat(document.getElementById('p-price').value),
-        type: type,
+        type: productType,
         category: document.getElementById('p-category').value,
-        content: content
+        content: finalContent
       };
 
-      products.push(newProduct);
-      localStorage.setItem('store_products_custom_3d', JSON.stringify(products));
+      try {
+        products.push(newProduct);
+        localStorage.setItem('my_store_products_v3', JSON.stringify(products));
+      } catch (err) {
+        alert('ملاحظة: حجم الملفات كبير على ذاكرة المتصفح المؤقتة. يُفضل استخدام روابط مباشرة أو تقليل حجم الملفات.');
+        products.pop();
+        return;
+      }
 
+      // تنظيف النموذج لإضافة سلعة أخرى مباشرة
       document.getElementById('add-product-form').reset();
+      uploadedFileContent = "";
       toggleInputType();
       renderAdminProducts();
       renderProducts();
-      alert('تم نشر المنتج بنجاح في المتجر!');
+      alert('تمت إضافة السلعة بنجاح! يمكنك الآن إضافة سلعة أخرى.');
     }
 
     function deleteProduct(id) {
-      if (confirm('هل تريد حذف هذا المنتج؟')) {
+      if (confirm('هل تريد حذف هذه السلعة؟')) {
         products = products.filter(p => p.id !== id);
-        localStorage.setItem('store_products_custom_3d', JSON.stringify(products));
+        localStorage.setItem('my_store_products_v3', JSON.stringify(products));
+        renderAdminProducts();
+        renderProducts();
+      }
+    }
+
+    function clearAllProducts() {
+      if (confirm('هل تريد مسح جميع السلع للبدء من جديد؟')) {
+        products = [];
+        localStorage.setItem('my_store_products_v3', JSON.stringify(products));
+        renderAdminProducts();
+        renderProducts();
+      }
+    }
+
+    function resetToDefaults() {
+      if (confirm('استعادة السلعة الافتراضية؟')) {
+        products = defaultProducts;
+        localStorage.setItem('my_store_products_v3', JSON.stringify(products));
         renderAdminProducts();
         renderProducts();
       }
@@ -507,14 +564,14 @@
       document.getElementById('admin-count').innerText = products.length;
 
       if (products.length === 0) {
-        list.innerHTML = `<p class="text-xs text-slate-500 text-center py-8">لا توجد منتجات منشورة</p>`;
+        list.innerHTML = `<p class="text-xs text-slate-500 text-center py-8">لا توجد سلع مضافة حالياً</p>`;
         return;
       }
 
       list.innerHTML = products.map(p => `
         <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border border-white/5">
           <div class="flex items-center gap-3">
-            <span class="text-xs px-2 py-1 rounded bg-cyan-500/20 text-cyan-400 font-bold">${p.type === 'custom-3d' ? '3D كود' : 'صورة'}</span>
+            <span class="text-xs px-2 py-1 rounded bg-cyan-500/20 text-cyan-400 font-bold">${p.type.toUpperCase()}</span>
             <div>
               <h4 class="text-xs font-bold text-white">${p.title}</h4>
               <span class="text-xs text-cyan-400 font-mono">${p.price} د.ج</span>
@@ -527,7 +584,7 @@
       `).join('');
     }
 
-    // عرض المنتجات داخل شبكة المتجر
+    // عرض السلع في صفحة المتجر
     function renderProducts() {
       const grid = document.getElementById('products-grid');
 
@@ -537,7 +594,8 @@
             <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center text-cyan-400 text-2xl">
               <i class="fa-solid fa-box-open"></i>
             </div>
-            <h3 class="text-lg font-bold text-white mb-2">لا توجد منتجات معروضة</h3>
+            <h3 class="text-lg font-bold text-white mb-2">لا توجد سلع معروضة حالياً</h3>
+            <p class="text-xs text-slate-400">أضف سلعاً جديدة من لوحة الأدمن لتظهر هنا فوراً.</p>
           </div>
         `;
         return;
@@ -548,8 +606,7 @@
         <div class="glass-card rounded-2xl overflow-hidden hover:border-cyan-400/40 transition duration-300 flex flex-col group">
           
           <div class="relative overflow-hidden aspect-square bg-slate-950/80 flex items-center justify-center">
-            ${p.type === 'custom-3d' ? `
-              <!-- تشغيل ملف/كود 3D داخل إطار معزول بالكامل وبأداء عالٍ -->
+            ${p.type === '3d' ? `
               <iframe 
                 srcdoc="${p.content.replace(/"/g, '&quot;')}" 
                 class="w-full h-full border-none pointer-events-auto"
@@ -627,9 +684,6 @@
         overlay.classList.remove('hidden');
       }
     }
-
-    // تجهيز حقل الكود الافتراضي في الفورم
-    document.getElementById('p-code').value = defaultThreeHtml;
 
     renderProducts();
   </script>
