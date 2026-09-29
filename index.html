@@ -27,7 +27,6 @@
       align-items: center;
       justify-content: center;
       background: rgba(0, 0, 0, 0.55);
-      padding: 0.65rem 1.6rem;
       border-radius: 9999px;
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
@@ -39,8 +38,6 @@
       position: relative;
       color: #94a3b8;
       font-weight: 700;
-      font-size: 0.9rem;
-      padding: 0.35rem 0.8rem;
       transition: color 0.3s ease;
       cursor: pointer;
     }
@@ -147,37 +144,48 @@
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
-  <!-- شريط التنقل العلوي -->
-  <header class="sticky top-4 z-40 max-w-6xl mx-auto w-full px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-    
-    <!-- الشعار (الضغط 3 مرات يفتح لوحة الأدمن) -->
-    <div class="flex items-center gap-3 cursor-pointer select-none" id="store-logo" onclick="handleLogoClick()">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-slate-900 border border-cyan-400/40 flex items-center justify-center text-cyan-400 font-black text-xl">
-        <i class="fa-solid fa-cube"></i>
+  <!-- شريط التنقل العلوي المتجاوب للهاتف والحاسوب -->
+  <header class="sticky top-2 z-40 max-w-6xl mx-auto w-full px-2 sm:px-4">
+    <div class="glass-card rounded-2xl p-2.5 sm:px-6 sm:py-3.5 flex flex-col gap-2.5 shadow-2xl">
+      
+      <!-- السطر الأول: الشعار + زر الأدمن + زر السلة -->
+      <div class="flex items-center justify-between w-full">
+        <!-- الشعار -->
+        <div class="flex items-center gap-2 cursor-pointer select-none" onclick="navigateTo('home')">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-slate-900 border border-cyan-400/40 flex items-center justify-center text-cyan-400 font-black text-lg">
+            <i class="fa-solid fa-cube"></i>
+          </div>
+          <span class="text-base sm:text-xl font-black bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
+            متجر النخبة
+          </span>
+        </div>
+
+        <!-- الأزرار الجانبية: الأدمن والسلة -->
+        <div class="flex items-center gap-2">
+          <!-- زر لوحة تحكم الأدمن البارز -->
+          <button onclick="openAdminModal()" class="px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-400/30 text-cyan-400 text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-shield-halved text-xs"></i>
+            <span>لوحة الأدمن</span>
+          </button>
+
+          <!-- زر سلة المشتريات -->
+          <button onclick="toggleCart()" class="relative p-2 rounded-xl glass-card hover:border-cyan-400/50 text-slate-200 transition">
+            <i class="fa-solid fa-bag-shopping text-base text-cyan-400"></i>
+            <span id="cart-count" class="absolute -top-1 -left-1 bg-cyan-400 text-slate-950 text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center">0</span>
+          </button>
+        </div>
       </div>
-      <span class="text-xl font-black bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
-        متجر النخبة
-      </span>
-    </div>
 
-    <!-- كبسولة التنقل -->
-    <nav class="nav-capsule flex items-center gap-2 sm:gap-4">
-      <button onclick="navigateTo('home')" id="tab-home" class="nav-link-item active">الرئيسية</button>
-      <button onclick="navigateTo('store')" id="tab-store" class="nav-link-item">المتجر</button>
-      <button onclick="navigateTo('track')" id="tab-track" class="nav-link-item">تتبع الطلب</button>
-      <button onclick="navigateTo('support')" id="tab-support" class="nav-link-item">تواصل معنا</button>
-    </nav>
+      <!-- السطر الثاني: كبسولة التنقل كاملة ومرتاحة في الهاتف -->
+      <div class="flex justify-center w-full">
+        <nav class="nav-capsule flex items-center justify-between w-full sm:w-auto gap-1 sm:gap-4 px-3 py-1.5">
+          <button onclick="navigateTo('home')" id="tab-home" class="nav-link-item active text-xs sm:text-sm px-2 py-1">الرئيسية</button>
+          <button onclick="navigateTo('store')" id="tab-store" class="nav-link-item text-xs sm:text-sm px-2 py-1">المتجر</button>
+          <button onclick="navigateTo('track')" id="tab-track" class="nav-link-item text-xs sm:text-sm px-2 py-1">تتبع الطلب</button>
+          <button onclick="navigateTo('support')" id="tab-support" class="nav-link-item text-xs sm:text-sm px-2 py-1">تواصل معنا</button>
+        </nav>
+      </div>
 
-    <!-- أزرار الإجراء (سلة + زر الدخول للأدمن) -->
-    <div class="flex items-center gap-3">
-      <button onclick="openAdminModal()" title="لوحة التحكم" class="p-2.5 rounded-xl glass-card hover:border-cyan-400/50 text-slate-400 hover:text-cyan-400 transition">
-        <i class="fa-solid fa-user-shield text-sm"></i>
-      </button>
-
-      <button onclick="toggleCart()" class="relative p-2.5 rounded-xl glass-card hover:border-cyan-400/50 text-slate-200 transition">
-        <i class="fa-solid fa-bag-shopping text-lg text-cyan-400"></i>
-        <span id="cart-count" class="absolute -top-1.5 -left-1.5 bg-cyan-400 text-slate-950 text-xs font-black w-5 h-5 rounded-full flex items-center justify-center">0</span>
-      </button>
     </div>
   </header>
 
@@ -286,7 +294,7 @@
     </div>
   </section>
 
-  <!-- ==================== الصفحة 5: لوحة تحكم الأدمن (ADMIN PANEL) ==================== -->
+  <!-- الصفحة 5: لوحة تحكم الأدمن -->
   <section id="page-admin" class="page-section flex-col max-w-5xl mx-auto px-4 py-10 w-full flex-1">
     <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
       <div class="flex items-center gap-3">
@@ -323,10 +331,8 @@
       </div>
     </div>
 
-    <!-- شبكة الأدمن: إضافة منتج + قائمة المنتجات الحالية -->
+    <!-- نموذج إضافة منتج + قائمة المنتجات -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      
-      <!-- نموذج إضافة منتج جديد -->
       <div class="lg:col-span-5 glass-card p-6 rounded-3xl border border-white/10">
         <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
           <i class="fa-solid fa-plus-circle text-cyan-400"></i> إضافة منتج جديد
@@ -335,17 +341,17 @@
         <form id="add-product-form" onsubmit="handleCreateProduct(event)" class="space-y-4">
           <div>
             <label class="text-xs text-slate-400 block mb-1">اسم المنتج</label>
-            <input type="text" id="p-title" required placeholder="مثال: حساب بريميوم" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
+            <input type="text" id="p-title" required placeholder="مثال: اشتراك نتفلكس شهر" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-xs text-slate-400 block mb-1">السعر (د.ج)</label>
-              <input type="number" id="p-price" required placeholder="2500" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
+              <input type="number" id="p-price" required placeholder="1200" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
             </div>
             <div>
               <label class="text-xs text-slate-400 block mb-1">التصنيف</label>
-              <input type="text" id="p-category" required placeholder="رقمي / مادي" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
+              <input type="text" id="p-category" required placeholder="رقمي / إلكترونيات" class="w-full px-4 py-2.5 rounded-xl bg-slate-900/90 border border-white/10 text-white text-xs outline-none focus:border-cyan-400">
             </div>
           </div>
 
@@ -360,21 +366,17 @@
         </form>
       </div>
 
-      <!-- قائمة المنتجات الحالية للتحكم والحذف -->
       <div class="lg:col-span-7 glass-card p-6 rounded-3xl border border-white/10 flex flex-col">
         <h3 class="text-base font-bold text-white mb-4 flex items-center gap-2">
           <i class="fa-solid fa-boxes-stacked text-cyan-400"></i> المنتجات الحالية
         </h3>
 
-        <div id="admin-products-list" class="space-y-3 flex-1 overflow-y-auto max-h-96">
-          <!-- تظهر هنا المنتجات مع أزرار الحذف -->
-        </div>
+        <div id="admin-products-list" class="space-y-3 flex-1 overflow-y-auto max-h-96"></div>
       </div>
-
     </div>
   </section>
 
-  <!-- نافذة طلب كلمة المرور للدخول للأدمن -->
+  <!-- نافذة كلمة مرور الأدمن -->
   <div id="admin-login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center px-4">
     <div class="glass-card max-w-sm w-full p-6 rounded-3xl border border-white/15 text-center shadow-2xl">
       <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-2xl">
@@ -431,15 +433,12 @@
 
   <!-- جافاسكربت التحكم واللوحة -->
   <script>
-    // كلمة المرور الافتراضية
     const ADMIN_PASS = "admin123";
     let isAdminLoggedIn = false;
 
-    // استرجاع المنتجات من ذاكرة المتصفح أو بدء مصفوفة فارغة
     let products = JSON.parse(localStorage.getItem('store_products')) || [];
     let cart = [];
 
-    // التنقل بين الصفحات
     function navigateTo(pageId) {
       document.querySelectorAll('.page-section').forEach(section => {
         section.classList.remove('active');
@@ -459,19 +458,6 @@
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // خدعة الدخول بالضغط 3 مرات على الشعار
-    let logoClicks = 0;
-    let logoTimer = null;
-    function handleLogoClick() {
-      logoClicks++;
-      clearTimeout(logoTimer);
-      logoTimer = setTimeout(() => { logoClicks = 0; }, 800);
-      if (logoClicks >= 3) {
-        logoClicks = 0;
-        openAdminModal();
-      }
     }
 
     function openAdminModal() {
@@ -507,7 +493,6 @@
       navigateTo('home');
     }
 
-    // إضافة منتج جديد
     function handleCreateProduct(e) {
       e.preventDefault();
       const newProduct = {
@@ -521,14 +506,12 @@
       products.push(newProduct);
       localStorage.setItem('store_products', JSON.stringify(products));
 
-      // إعادة تعيين الفورم وتحديث العرض
       document.getElementById('add-product-form').reset();
       renderAdminProducts();
       renderProducts();
       alert('تمت إضافة المنتج بنجاح إلى المتجر!');
     }
 
-    // حذف منتج
     function deleteProduct(id) {
       if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
         products = products.filter(p => p.id !== id);
@@ -538,7 +521,6 @@
       }
     }
 
-    // عرض المنتجات داخل لوحة الأدمن
     function renderAdminProducts() {
       const list = document.getElementById('admin-products-list');
       const countEl = document.getElementById('stat-products-count');
@@ -565,7 +547,6 @@
       `).join('');
     }
 
-    // عرض المنتجات في واجهة المتجر الرئيسية
     function renderProducts() {
       const grid = document.getElementById('products-grid');
       if (products.length === 0) {
@@ -605,7 +586,6 @@
       `).join('');
     }
 
-    // دوال السلة
     function addToCart(id) {
       const product = products.find(p => p.id === id);
       const item = cart.find(i => i.id === id);
@@ -658,7 +638,6 @@
       }
     }
 
-    // تشغيل الصفحة عند التحميل
     renderProducts();
   </script>
 </body>
