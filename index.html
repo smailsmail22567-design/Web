@@ -129,19 +129,33 @@
             <input type="text" id="p-category" required placeholder="التصنيف" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
           </div>
 
-          <!-- خانة رفع ملف 3D (تفتح مدير الملفات مباشرة) -->
-          <div class="p-3 rounded-2xl bg-slate-900/80 border border-cyan-500/30">
-            <label class="block text-xs font-bold text-cyan-400 mb-1.5"><i class="fa-solid fa-cube"></i> خانة رفع ملف 3D (اختر ملف html من هاتفك):</label>
-            <input type="file" id="p-file" accept="text/html,.html,.htm" onchange="handleFileUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-slate-300 text-xs">
+          <select id="p-type" onchange="toggleInputType()" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-cyan-400 text-xs font-bold">
+            <option value="upload-file">رفع ملف 3D (HTML + GLB)</option>
+            <option value="paste-code">لصق كود 3D يدوياً (Paste Code)</option>
+            <option value="image">صورة عادية برابط (2D Image URL)</option>
+          </select>
+
+          <!-- خانات رفع ملف HTML وملف GLB معاً -->
+          <div id="file-input-container" class="space-y-3 p-3 rounded-2xl bg-slate-900/80 border border-cyan-500/30">
+            <div>
+              <label class="block text-[11px] text-cyan-400 mb-1"><i class="fa-solid fa-code"></i> 1. اختر ملف الـ HTML:</label>
+              <input type="file" id="p-file" accept=".html,.htm,.txt" onchange="handleFileUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-slate-300 text-xs">
+            </div>
+            <div>
+              <label class="block text-[11px] text-cyan-400 mb-1"><i class="fa-solid fa-cube"></i> 2. اختر ملف الـ GLB للمجسم:</label>
+              <input type="file" id="p-glb-file" accept=".glb,.gltf" onchange="handleGlbUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-cyan-400/30 text-slate-300 text-xs">
+            </div>
           </div>
 
-          <!-- خانة رفع صورة السلعة المصغرة (تفتح المعرض أو الملفات للصور) -->
-          <div class="p-3 rounded-2xl bg-slate-900/80 border border-cyan-500/30">
-            <label class="block text-xs font-bold text-cyan-400 mb-1.5"><i class="fa-solid fa-image"></i> خانة رفع صورة السلعة المصغرة (اختر صورة):</label>
-            <input type="file" id="p-thumb-file" accept="image/*" onchange="handleThumbUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-slate-300 text-xs">
+          <div id="code-input-container" class="hidden">
+            <textarea id="p-code" placeholder="الصق كود 3D يدوياً هنا..." rows="3" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs outline-none"></textarea>
           </div>
 
-          <button type="submit" class="w-full py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs shadow-lg shadow-cyan-500/20">نشر السلعة سحابياً الآن</button>
+          <div id="image-input-container" class="hidden">
+            <input type="url" id="p-image-url" placeholder="رابط الصورة https://..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
+          </div>
+
+          <button type="submit" class="w-full py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs">نشر السلعة سحابياً الآن</button>
         </form>
       </div>
 
@@ -191,7 +205,7 @@
     let products = [];
     let cart = [];
     let uploadedFileContent = "";
-    let uploadedThumbContent = "";
+    let uploadedGlbContent = "";
 
     function navigateTo(pageId) {
       document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
@@ -231,6 +245,13 @@
 
     function adminLogout() { isAdminLoggedIn = false; navigateTo('home'); }
 
+    function toggleInputType() {
+      const type = document.getElementById('p-type').value;
+      document.getElementById('file-input-container').classList.toggle('hidden', type !== 'upload-file');
+      document.getElementById('code-input-container').classList.toggle('hidden', type !== 'paste-code');
+      document.getElementById('image-input-container').classList.toggle('hidden', type !== 'image');
+    }
+
     function handleFileUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -239,37 +260,70 @@
       reader.readAsText(file);
     }
 
-    function handleThumbUpload(e) {
+    function handleGlbUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = function(event) { uploadedThumbContent = event.target.result; };
-      reader.readAsDataURL(file);
+      reader.onload = function(event) { uploadedGlbContent = event.target.result; };
+      reader.readAsDataURL(file); // قراءة ملف الـ GLB كـ Base64 لدمجه مباشرة في الـ HTML
     }
 
     async function handleCloudCreateProduct(e) {
       e.preventDefault();
+      const type = document.getElementById('p-type').value;
+      let finalContent = "";
+      let productType = "3d";
 
-      if (!uploadedFileContent) { alert('يرجى اختيار ملف 3D (.html)!'); return; }
-      if (!uploadedThumbContent) { alert('يرجى اختيار ملف الصورة المصغرة!'); return; }
+      if (type === 'upload-file') {
+        if (!uploadedFileContent) { alert('يرجى اختيار ملف الـ HTML!'); return; }
+        if (!uploadedGlbContent) { alert('يرجى اختيار ملف الـ GLB الخاص بالمجسم!'); return; }
+        
+        // حقن ملف الـ GLB تلقائياً داخل كود الـ HTML لتفادي الشاشة السوداء ومشاكل الملفات
+        finalContent = uploadedFileContent.replace('accept=".glb,.gltf">', `accept=".glb,.gltf" style="display:none;">`);
+        // إضافة سكربت قراءة الـ GLB المحقون تلقائياً
+        finalContent += `
+          <script>
+            window.addEventListener('DOMContentLoaded', () => {
+              const base64Glb = "${uploadedGlbContent}";
+              fetch(base64Glb).then(res => res.arrayBuffer()).then(buffer => {
+                loader.parse(buffer, '', function(gltf) {
+                  if (capModel) scene.remove(capModel);
+                  capModel = gltf.scene;
+                  capModel.position.set(0, 0, 0);
+                  capModel.scale.set(1.5, 1.5, 1.5);
+                  scene.add(capModel);
+                });
+              });
+            });
+          </script>
+        `;
+        productType = "3d";
+      } else if (type === 'paste-code') {
+        finalContent = document.getElementById('p-code').value;
+        productType = "3d";
+      } else if (type === 'image') {
+        finalContent = document.getElementById('p-image-url').value;
+        productType = "image";
+      }
+
+      if (!finalContent) { alert('يرجى إكمال البيانات المطلوبة!'); return; }
 
       const newProduct = {
         title: document.getElementById('p-title').value,
         price: parseFloat(document.getElementById('p-price').value),
         category: document.getElementById('p-category').value,
-        type: '3d-thumb',
-        content: uploadedFileContent,
-        image_url: uploadedThumbContent
+        type: productType,
+        content: finalContent
       };
 
       const { error } = await supabaseClient.from('products').insert([newProduct]);
       if (error) {
         alert('حدث خطأ أثناء الرفع للسحابة: ' + error.message);
       } else {
-        alert('تم نشر السلعة بنجاح في السحابة مع صورتها وستظهر للجميع فوراً!');
+        alert('تم نشر السلعة بنجاح في السحابة مع مجسم الـ 3D وستظهر للجميع فوراً!');
         document.getElementById('add-product-form').reset();
         uploadedFileContent = "";
-        uploadedThumbContent = "";
+        uploadedGlbContent = "";
         fetchProductsFromCloud();
       }
     }
@@ -310,14 +364,14 @@
       grid.innerHTML = products.map(p => `
         <div class="glass-card rounded-2xl overflow-hidden hover:border-cyan-400/40 transition flex flex-col group">
           <div class="relative overflow-hidden aspect-square bg-slate-950/80 flex items-center justify-center">
-            ${p.type === '3d-thumb' && p.image_url ? `
-              <img src="${p.image_url}" class="w-full h-full object-cover">
-            ` : p.type === '3d' ? `
-              <iframe srcdoc="${p.content.replace(/"/g, '&quot;')}" class="w-full h-full border-none pointer-events-auto" scrolling="no"></iframe>
+            ${p.type === '3d' ? `
+              <div class="w-full h-full relative">
+                <iframe srcdoc="${p.content.replace(/"/g, '&quot;')}" class="w-full h-full border-none pointer-events-auto" scrolling="no"></iframe>
+              </div>
             ` : `
               <img src="${p.content}" class="w-full h-full object-cover">
             `}
-            <span class="absolute top-3 right-3 bg-slate-950/80 border border-white/10 text-cyan-400 text-xs px-2.5 py-1 rounded-full">${p.category}</span>
+            <span class="absolute top-3 right-3 bg-slate-950/80 border border-white/10 text-cyan-400 text-xs px-2.5 py-1 rounded-full z-10">${p.category}</span>
           </div>
           <div class="p-5 flex flex-col flex-1 justify-between">
             <h3 class="text-base font-bold text-slate-100 mb-4">${p.title}</h3>
