@@ -7,6 +7,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- مكتبة Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
@@ -74,6 +76,10 @@
   </header>
 
   <section id="page-home" class="page-section active flex-col justify-center items-center max-w-4xl mx-auto px-4 py-16 text-center w-full flex-1">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-6">
+      <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+      متصل بقاعدة البيانات السحابية الحية
+    </div>
     <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-[1.3] mb-6">
       تجربة تسوق سحابية متكاملة <br>
       <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-slate-100 bg-clip-text text-transparent">
@@ -90,7 +96,7 @@
       <h2 class="text-2xl sm:text-3xl font-black text-white">قائمة السلع السحابية</h2>
     </div>
     <div id="products-grid" class="w-full text-center py-12">
-      <p class="text-cyan-400 text-sm">جاري التحميل...</p>
+      <p class="text-cyan-400 text-sm animate-pulse">جاري التحميل من السحابة...</p>
     </div>
   </section>
 
@@ -116,8 +122,8 @@
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10">
-        <h3 class="text-base font-bold text-white mb-4">إضافة سلعة جديدة</h3>
-        <form id="add-product-form" onsubmit="handleCreateProduct(event)" class="space-y-4">
+        <h3 class="text-base font-bold text-white mb-4">إضافة سلعة سحابية جديدة</h3>
+        <form id="add-product-form" onsubmit="handleCloudCreateProduct(event)" class="space-y-4">
           <input type="text" id="p-title" required placeholder="اسم السلعة" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
           <div class="grid grid-cols-2 gap-3">
             <input type="number" id="p-price" required placeholder="السعر (د.ج)" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
@@ -133,11 +139,11 @@
           <div id="image-input-container" class="hidden">
             <input type="url" id="p-image-url" placeholder="رابط الصورة https://..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
           </div>
-          <button type="submit" class="w-full py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs">نشر السلعة الآن</button>
+          <button type="submit" class="w-full py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs">نشر السلعة سحابياً الآن</button>
         </form>
       </div>
       <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10 flex flex-col">
-        <h3 class="text-base font-bold text-white mb-4">السلع المسجلة (<span id="admin-count">0</span>)</h3>
+        <h3 class="text-base font-bold text-white mb-4">السلع المسجلة في السحابة (<span id="admin-count">0</span>)</h3>
         <div id="admin-products-list" class="space-y-3 flex-1 overflow-y-auto max-h-96"></div>
       </div>
     </div>
@@ -145,7 +151,7 @@
 
   <div id="admin-login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center px-4">
     <div class="glass-card max-w-sm w-full p-6 rounded-3xl border border-white/15 text-center shadow-2xl">
-      <h3 class="text-lg font-black text-white mb-3">منطقة الإدارة</h3>
+      <h3 class="text-lg font-black text-white mb-3">منطقة الإدارة السحابية</h3>
       <form onsubmit="verifyAdminPass(event)" class="space-y-4">
         <input type="password" id="admin-pass-input" placeholder="كلمة المرور (admin123)" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-white/20 text-center text-white text-sm outline-none">
         <button type="submit" class="w-full py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs">دخول</button>
@@ -172,9 +178,14 @@
   <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden"></div>
 
   <script>
+    const SUPABASE_URL = 'https://qrikkoarqzqousgaorjm.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyaWtrb2FycXpxb3VzZ2FvcmptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3ODk3MzgsImV4cCI6MjEwNjM2NTczOH0.0QX8qkanTKe2iF1ALjtAT0L2t1P4N7WkmpDyMFAdKcg';
+    
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     const ADMIN_PASS = "admin123";
     let isAdminLoggedIn = false;
-    let products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
+    let products = [];
     let cart = [];
     let uploadedFileContent = "";
 
@@ -188,6 +199,15 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    async function fetchProductsFromCloud() {
+      const { data, error } = await supabaseClient.from('products').select('*').order('id', { ascending: false });
+      if (!error && data) {
+        products = data;
+        renderProducts();
+        if (isAdminLoggedIn) renderAdminProducts();
+      }
+    }
+
     function openAdminModal() {
       if (isAdminLoggedIn) { navigateTo('admin'); renderAdminProducts(); return; }
       document.getElementById('admin-login-modal').classList.remove('hidden');
@@ -199,7 +219,7 @@
         isAdminLoggedIn = true;
         document.getElementById('admin-login-modal').classList.add('hidden');
         navigateTo('admin');
-        renderAdminProducts();
+        fetchProductsFromCloud();
       } else {
         alert('كلمة المرور غير صحيحة!');
       }
@@ -221,7 +241,7 @@
       reader.readAsText(file);
     }
 
-    function handleCreateProduct(e) {
+    async function handleCloudCreateProduct(e) {
       e.preventDefault();
       const type = document.getElementById('p-type').value;
       let finalContent = type === 'upload-file' ? uploadedFileContent : document.getElementById('p-image-url').value;
@@ -230,7 +250,6 @@
       if (!finalContent) { alert('يرجى إدخال محتوى أو رابط السلعة!'); return; }
 
       const newProduct = {
-        id: Date.now(),
         title: document.getElementById('p-title').value,
         price: parseFloat(document.getElementById('p-price').value),
         category: document.getElementById('p-category').value,
@@ -238,35 +257,35 @@
         content: finalContent
       };
 
-      products.unshift(newProduct);
-      localStorage.setItem('cloud_store_products', JSON.stringify(products));
-      alert('تم نشر السلعة بنجاح وظهرت في المتجر فوراً!');
-      document.getElementById('add-product-form').reset();
-      uploadedFileContent = "";
-      renderProducts();
-      renderAdminProducts();
+      const { error } = await supabaseClient.from('products').insert([newProduct]);
+      if (error) {
+        alert('حدث خطأ أثناء الرفع للسحابة: ' + error.message);
+      } else {
+        alert('تم نشر السلعة بنجاح في السحابة وستظهر للجميع فوراً!');
+        document.getElementById('add-product-form').reset();
+        uploadedFileContent = "";
+        fetchProductsFromCloud();
+      }
     }
 
-    function deleteProduct(id) {
-      if (confirm('هل تريد حذف هذه السلعة؟')) {
-        products = products.filter(p => p.id !== id);
-        localStorage.setItem('cloud_store_products', JSON.stringify(products));
-        renderProducts();
-        renderAdminProducts();
+    async function deleteCloudProduct(id) {
+      if (confirm('هل تريد حذف هذه السلعة نهائياً من السحابة؟')) {
+        const { error } = await supabaseClient.from('products').delete().eq('id', id);
+        if (!error) { fetchProductsFromCloud(); }
       }
     }
 
     function renderAdminProducts() {
       const list = document.getElementById('admin-products-list');
       document.getElementById('admin-count').innerText = products.length;
-      if (products.length === 0) { list.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">لا توجد سلع</p>`; return; }
+      if (products.length === 0) { list.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">لا توجد سلع في السحابة</p>`; return; }
       list.innerHTML = products.map(p => `
         <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border border-white/5">
           <div>
             <h4 class="text-xs font-bold text-white">${p.title}</h4>
             <span class="text-xs text-cyan-400">${p.price} د.ج</span>
           </div>
-          <button onclick="deleteProduct(${p.id})" class="px-2.5 py-1.5 rounded-lg bg-red-500/10 text-red-400 text-xs">
+          <button onclick="deleteCloudProduct(${p.id})" class="px-2.5 py-1.5 rounded-lg bg-red-500/10 text-red-400 text-xs">
             <i class="fa-solid fa-trash"></i>
           </button>
         </div>
@@ -337,7 +356,7 @@
       overlay.classList.toggle('hidden', isOpen);
     }
 
-    renderProducts();
+    fetchProductsFromCloud();
   </script>
 </body>
 </html>
