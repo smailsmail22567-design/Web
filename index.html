@@ -135,8 +135,16 @@
             <option value="image">صورة عادية برابط (2D Image URL)</option>
           </select>
 
-          <div id="file-input-container">
-            <input type="file" id="p-file" accept=".html,.htm,.txt" onchange="handleFileUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-slate-300 text-xs">
+          <!-- خانة رفع ملف الـ HTML وملف الـ GLB معاً تظهر فوراً عند اختيار رفع الملف -->
+          <div id="file-input-container" class="space-y-3 p-3 rounded-2xl bg-slate-900/80 border border-cyan-500/30">
+            <div>
+              <label class="block text-[11px] text-cyan-400 mb-1"><i class="fa-solid fa-code"></i> اختر ملف الـ HTML:</label>
+              <input type="file" id="p-file" accept=".html,.htm,.txt" onchange="handleFileUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-slate-300 text-xs">
+            </div>
+            <div>
+              <label class="block text-[11px] text-cyan-400 mb-1"><i class="fa-solid fa-cube"></i> اختر ملف الـ GLB للمجسم:</label>
+              <input type="file" id="p-glb-file" accept=".glb,.gltf" onchange="handleGlbUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-cyan-400/30 text-slate-300 text-xs">
+            </div>
           </div>
 
           <div id="code-input-container" class="hidden">
@@ -197,6 +205,7 @@
     let products = [];
     let cart = [];
     let uploadedFileContent = "";
+    let uploadedGlbContent = "";
 
     function navigateTo(pageId) {
       document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
@@ -251,6 +260,14 @@
       reader.readAsText(file);
     }
 
+    function handleGlbUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) { uploadedGlbContent = event.target.result; };
+      reader.readAsDataURL(file);
+    }
+
     async function handleCloudCreateProduct(e) {
       e.preventDefault();
       const type = document.getElementById('p-type').value;
@@ -258,7 +275,25 @@
       let productType = "3d";
 
       if (type === 'upload-file') {
-        finalContent = uploadedFileContent;
+        if (!uploadedFileContent) { alert('يرجى اختيار ملف الـ HTML!'); return; }
+        if (!uploadedGlbContent) { alert('يرجى اختيار ملف الـ GLB للمجسم!'); return; }
+
+        finalContent = uploadedFileContent + `
+          <script>
+            window.addEventListener('DOMContentLoaded', () => {
+              const base64Glb = "${uploadedGlbContent}";
+              fetch(base64Glb).then(res => res.arrayBuffer()).then(buffer => {
+                loader.parse(buffer, '', function(gltf) {
+                  if (capModel) scene.remove(capModel);
+                  capModel = gltf.scene;
+                  capModel.position.set(0, 0, 0);
+                  capModel.scale.set(1.5, 1.5, 1.5);
+                  scene.add(capModel);
+                });
+              });
+            });
+          </script>
+        `;
         productType = "3d";
       } else if (type === 'paste-code') {
         finalContent = document.getElementById('p-code').value;
@@ -268,7 +303,7 @@
         productType = "image";
       }
 
-      if (!finalContent) { alert('يرجى إدخال محتوى السلعة أو ملف الـ 3D!'); return; }
+      if (!finalContent) { alert('يرجى إكمال محتوى السلعة!'); return; }
 
       const newProduct = {
         title: document.getElementById('p-title').value,
@@ -282,9 +317,10 @@
       if (error) {
         alert('حدث خطأ أثناء الرفع للسحابة: ' + error.message);
       } else {
-        alert('تم نشر السلعة بنجاح في السحابة وستظهر للجميع فوراً!');
+        alert('تم نشر السلعة بنجاح في السحابة مع مجسم الـ 3D وستظهر للجميع فوراً!');
         document.getElementById('add-product-form').reset();
         uploadedFileContent = "";
+        uploadedGlbContent = "";
         fetchProductsFromCloud();
       }
     }
