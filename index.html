@@ -128,26 +128,23 @@
             <input type="number" id="p-price" required placeholder="السعر (د.ج)" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
             <input type="text" id="p-category" required placeholder="التصنيف" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
           </div>
-          <select id="p-type" onchange="toggleInputType()" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-cyan-400 text-xs font-bold">
-            <option value="3d-with-thumb">رفع ملف 3D (HTML) + صورة المصغرة</option>
-            <option value="image">صورة عادية (2D URL)</option>
-          </select>
-          
-          <div id="file-input-container">
-            <label class="block text-[11px] text-cyan-400 mb-1">اختر ملف 3D (.html):</label>
-            <input type="file" id="p-file" accept=".html,.htm,.txt" onchange="handleFileUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-slate-300 text-xs mb-3">
-            
-            <label class="block text-[11px] text-cyan-400 mb-1">اختر صورة السلعة المصغرة:</label>
-            <input type="file" id="p-thumb-file" accept="image/*" onchange="handleThumbUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-cyan-400/30 text-slate-300 text-xs">
+
+          <!-- خانة رفع ملف 3D (HTML) -->
+          <div class="p-3 rounded-2xl bg-slate-900/80 border border-cyan-500/30">
+            <label class="block text-xs font-bold text-cyan-400 mb-1.5"><i class="fa-solid fa-cube"></i> رفع ملف 3D (.html):</label>
+            <input type="file" id="p-file" accept=".html,.htm,.txt" onchange="handleFileUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-slate-300 text-xs">
           </div>
 
-          <div id="image-input-container" class="hidden">
-            <input type="url" id="p-image-url" placeholder="رابط الصورة https://..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
+          <!-- خانة رفع ملف الصورة المصغرة -->
+          <div class="p-3 rounded-2xl bg-slate-900/80 border border-cyan-500/30">
+            <label class="block text-xs font-bold text-cyan-400 mb-1.5"><i class="fa-solid fa-image"></i> رفع ملف صورة السلعة المصغرة:</label>
+            <input type="file" id="p-thumb-file" accept="image/*" onchange="handleThumbUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-slate-300 text-xs">
           </div>
 
-          <button type="submit" class="w-full py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs">نشر السلعة سحابياً الآن</button>
+          <button type="submit" class="w-full py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs shadow-lg shadow-cyan-500/20">نشر السلعة سحابياً الآن</button>
         </form>
       </div>
+
       <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10 flex flex-col">
         <h3 class="text-base font-bold text-white mb-4">السلع المسجلة في السحابة (<span id="admin-count">0</span>)</h3>
         <div id="admin-products-list" class="space-y-3 flex-1 overflow-y-auto max-h-96"></div>
@@ -234,13 +231,6 @@
 
     function adminLogout() { isAdminLoggedIn = false; navigateTo('home'); }
 
-    function toggleInputType() {
-      const type = document.getElementById('p-type').value;
-      document.getElementById('file-input-container').classList.toggle('hidden', type === 'image');
-      document.getElementById('thumb-input-container').classList.toggle('hidden', type === 'image');
-      document.getElementById('image-input-container').classList.toggle('hidden', type !== 'image');
-    }
-
     function handleFileUpload(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -259,36 +249,24 @@
 
     async function handleCloudCreateProduct(e) {
       e.preventDefault();
-      const type = document.getElementById('p-type').value;
-      let finalContent = "";
-      let productType = "3d";
-      let thumbUrl = "";
 
-      if (type === 'image') {
-        finalContent = document.getElementById('p-image-url').value;
-        productType = "image";
-      } else {
-        finalContent = uploadedFileContent;
-        thumbUrl = uploadedThumbContent;
-        productType = "3d-thumb";
-      }
-
-      if (!finalContent) { alert('يرجى اختيار ملف 3D (.html)!'); return; }
+      if (!uploadedFileContent) { alert('يرجى اختيار ملف 3D (.html)!'); return; }
+      if (!uploadedThumbContent) { alert('يرجى اختيار ملف الصورة المصغرة!'); return; }
 
       const newProduct = {
         title: document.getElementById('p-title').value,
         price: parseFloat(document.getElementById('p-price').value),
         category: document.getElementById('p-category').value,
-        type: productType,
-        content: finalContent,
-        image_url: thumbUrl
+        type: '3d-thumb',
+        content: uploadedFileContent,
+        image_url: uploadedThumbContent
       };
 
       const { error } = await supabaseClient.from('products').insert([newProduct]);
       if (error) {
         alert('حدث خطأ أثناء الرفع للسحابة: ' + error.message);
       } else {
-        alert('تم نشر السلعة بنجاح في السحابة وستظهر للجميع فوراً!');
+        alert('تم نشر السلعة بنجاح في السحابة مع صورتها وستظهر للجميع فوراً!');
         document.getElementById('add-product-form').reset();
         uploadedFileContent = "";
         uploadedThumbContent = "";
