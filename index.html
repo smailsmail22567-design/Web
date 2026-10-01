@@ -4,46 +4,117 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BLACK STORE | المتجر السحابي المتكامل</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- خط تجوال الحديث -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- مكتبة Supabase للاتصال بقاعدة البيانات السحابية -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
       font-family: 'Tajawal', sans-serif;
       background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.8)), url('bg.jpg');
-      background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100vh;
     }
+
     .nav-capsule {
-      display: inline-flex; align-items: center; justify-content: center;
-      background: rgba(0, 0, 0, 0.55); border-radius: 9999px;
-      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-      border: 1.5px solid rgba(255, 255, 255, 0.12); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.55);
+      border-radius: 9999px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     }
+
     .nav-link-item {
-      position: relative; color: #94a3b8; font-weight: 700; transition: color 0.3s ease; cursor: pointer;
+      position: relative;
+      color: #94a3b8;
+      font-weight: 700;
+      transition: color 0.3s ease;
+      cursor: pointer;
     }
+
     .nav-link-item::after {
-      content: ''; position: absolute; width: 0%; height: 2px; bottom: -2px; left: 50%;
-      background: #22d3ee; box-shadow: 0 0 10px #22d3ee; transition: all 0.3s ease; transform: translateX(-50%);
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -2px;
+      left: 50%;
+      background: #22d3ee;
+      box-shadow: 0 0 10px #22d3ee, 0 0 20px #22d3ee;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateX(-50%);
+      border-radius: 2px;
     }
-    .nav-link-item:hover, .nav-link-item.active { color: #ffffff; }
-    .nav-link-item:hover::after, .nav-link-item.active::after { width: 75%; }
+
+    .nav-link-item:hover,
+    .nav-link-item.active {
+      color: #ffffff;
+    }
+
+    .nav-link-item:hover::after,
+    .nav-link-item.active::after {
+      width: 75%;
+    }
+
     .glass-card {
-      background: rgba(18, 18, 24, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      background: rgba(18, 18, 24, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .page-section { display: none; animation: fadeIn 0.3s ease forwards; }
+
+    .social-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      font-size: 1.6rem;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .social-btn:hover {
+      transform: translateY(-8px) scale(1.05);
+      color: #fff;
+    }
+    .social-btn.instagram:hover { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+    .social-btn.telegram:hover { background: #0088cc; }
+    .social-btn.youtube:hover { background: #ff0000; }
+    .social-btn.whatsapp:hover { background: #25d366; }
+
+    .page-section {
+      display: none;
+      animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
     .page-section.active { display: flex; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
   </style>
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
+  <!-- شريط التنقل العلوي -->
   <header class="sticky top-2 z-40 max-w-6xl mx-auto w-full px-2 sm:px-4">
     <div class="glass-card rounded-2xl p-2.5 sm:px-6 sm:py-3.5 flex flex-col gap-2.5 shadow-2xl">
       <div class="flex items-center justify-between w-full">
+        <!-- الشعار -->
         <div class="flex items-center gap-2 cursor-pointer select-none" onclick="navigateTo('home')">
           <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-slate-900 border border-cyan-400/40 flex items-center justify-center text-cyan-400 font-black text-lg">
             <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -52,6 +123,8 @@
             متجر النخبة السحابي
           </span>
         </div>
+
+        <!-- أزرار الأدمن والسلة -->
         <div class="flex items-center gap-2">
           <button onclick="openAdminModal()" class="px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-400/30 text-cyan-400 text-xs font-bold transition flex items-center gap-1.5">
             <i class="fa-solid fa-shield-halved text-xs"></i>
@@ -63,6 +136,8 @@
           </button>
         </div>
       </div>
+
+      <!-- كبسولة التنقل -->
       <div class="flex justify-center w-full">
         <nav class="nav-capsule flex items-center justify-between w-full sm:w-auto gap-1 sm:gap-4 px-3 py-1.5">
           <button onclick="navigateTo('home')" id="tab-home" class="nav-link-item active text-xs sm:text-sm px-2 py-1">الرئيسية</button>
@@ -74,31 +149,42 @@
     </div>
   </header>
 
+  <!-- الصفحة 1: الرئيسية -->
   <section id="page-home" class="page-section active flex-col justify-center items-center max-w-4xl mx-auto px-4 py-16 text-center w-full flex-1">
     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-6">
       <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
       متصل بقاعدة البيانات السحابية الحية
     </div>
+
     <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-[1.3] mb-6">
       تجربة تسوق سحابية متكاملة <br>
       <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-slate-100 bg-clip-text text-transparent">
         سلع فورية ومحدثة للجميع مباشرة
       </span>
     </h1>
-    <button onclick="navigateTo('store')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition">
-      تصفح السلع السحابية
-    </button>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+      <button onclick="navigateTo('store')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition flex items-center justify-center gap-3">
+        <span>تصفح السلع السحابية</span>
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+    </div>
   </section>
 
+  <!-- الصفحة 2: المتجر -->
   <section id="page-store" class="page-section flex-col max-w-6xl mx-auto px-4 py-12 w-full flex-1">
     <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-      <h2 class="text-2xl sm:text-3xl font-black text-white">قائمة السلع السحابية</h2>
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-black text-white">قائمة السلع السحابية</h2>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1">تُجلب هذه السلع مباشرة من قاعدة البيانات ليراها الجميع</p>
+      </div>
     </div>
     <div id="products-grid" class="w-full text-center py-12">
-      <p class="text-cyan-400 text-sm animate-pulse">جاري التحميل من السحابة...</p>
+      <p class="text-cyan-400 text-sm animate-pulse">جاري تحميل السلع من السحابة...</p>
     </div>
   </section>
 
+  <!-- الصفحة 3: تتبع الطلب -->
   <section id="page-track" class="page-section flex-col items-center justify-center max-w-xl mx-auto px-4 py-16 w-full text-center flex-1">
     <div class="glass-card p-8 rounded-3xl w-full border border-white/10 shadow-2xl">
       <h2 class="text-2xl font-black text-white mb-2">تتبع حالة طلبك</h2>
@@ -107,21 +193,33 @@
     </div>
   </section>
 
+  <!-- الصفحة 4: تواصل معنا -->
   <section id="page-support" class="page-section flex-col items-center justify-center max-w-2xl mx-auto px-4 py-16 w-full flex-1">
     <div class="glass-card p-8 rounded-3xl w-full flex justify-center gap-5">
-      <a href="https://t.me" target="_blank" class="text-2xl text-cyan-400"><i class="fa-brands fa-telegram"></i></a>
-      <a href="https://whatsapp.com" target="_blank" class="text-2xl text-cyan-400"><i class="fa-brands fa-whatsapp"></i></a>
+      <a href="https://t.me" target="_blank" class="social-btn telegram"><i class="fa-brands fa-telegram"></i></a>
+      <a href="https://whatsapp.com" target="_blank" class="social-btn whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
     </div>
   </section>
 
+  <!-- الصفحة 5: لوحة تحكم الأدمن السحابية -->
   <section id="page-admin" class="page-section flex-col max-w-5xl mx-auto px-4 py-10 w-full flex-1">
     <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-      <h2 class="text-xl sm:text-2xl font-black text-white">لوحة الأدمن السحابية</h2>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-lg">
+          <i class="fa-solid fa-cloud"></i>
+        </div>
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-white">لوحة الأدمن السحابية</h2>
+          <p class="text-xs text-slate-400">أي تعديل هنا سيظهر فوراً لكل زوار المتجر في العالم</p>
+        </div>
+      </div>
       <button onclick="adminLogout()" class="px-3 py-1.5 bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold">خروج</button>
     </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <!-- نموذج إضافة سلعة سحابية -->
       <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10">
-        <h3 class="text-base font-bold text-white mb-4">إضافة سلعة سحابية جديدة</h3>
+        <h3 class="text-base font-bold text-white mb-4">إضافة سلعة جديدة للسحابة</h3>
         <form id="add-product-form" onsubmit="handleCloudCreateProduct(event)" class="space-y-4">
           <input type="text" id="p-title" required placeholder="اسم السلعة" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
           <div class="grid grid-cols-2 gap-3">
@@ -129,11 +227,11 @@
             <input type="text" id="p-category" required placeholder="التصنيف" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
           </div>
           <select id="p-type" onchange="toggleInputType()" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-cyan-400 text-xs font-bold">
-            <option value="upload-file">رفع صورة من هاتفك مباشرة</option>
-            <option value="image">رابط صورة خارجي (URL)</option>
+            <option value="upload-file">رفع ملف 3D (.html)</option>
+            <option value="image">صورة عادية (2D URL)</option>
           </select>
           <div id="file-input-container">
-            <input type="file" id="p-file" accept="image/*" onchange="handleFileUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-slate-300 text-xs">
+            <input type="file" id="p-file" accept=".html,.htm,.txt" onchange="handleFileUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-slate-300 text-xs">
           </div>
           <div id="image-input-container" class="hidden">
             <input type="url" id="p-image-url" placeholder="رابط الصورة https://..." class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
@@ -141,6 +239,8 @@
           <button type="submit" class="w-full py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs">نشر السلعة سحابياً الآن</button>
         </form>
       </div>
+
+      <!-- قائمة السلع السحابية الحالية -->
       <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10 flex flex-col">
         <h3 class="text-base font-bold text-white mb-4">السلع المسجلة في السحابة (<span id="admin-count">0</span>)</h3>
         <div id="admin-products-list" class="space-y-3 flex-1 overflow-y-auto max-h-96"></div>
@@ -148,6 +248,7 @@
     </div>
   </section>
 
+  <!-- نافذة كلمة مرور الأدمن -->
   <div id="admin-login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center px-4">
     <div class="glass-card max-w-sm w-full p-6 rounded-3xl border border-white/15 text-center shadow-2xl">
       <h3 class="text-lg font-black text-white mb-3">منطقة الإدارة السحابية</h3>
@@ -158,9 +259,10 @@
     </div>
   </div>
 
+  <!-- سلة المشتريات -->
   <div id="cart-drawer" class="fixed inset-y-0 left-0 w-full sm:w-96 glass-card z-50 transform -translate-x-full transition-transform duration-300 flex flex-col p-6 border-r border-white/10 shadow-2xl">
     <div class="flex items-center justify-between pb-4 border-b border-white/10">
-      <h3 class="text-lg font-bold">سلة المشتريات</h3>
+      <h3 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-cyan-400"></i> سلة المشتريات</h3>
       <button onclick="toggleCart()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
     </div>
     <div id="cart-items" class="flex-1 overflow-y-auto py-4 space-y-3">
@@ -176,6 +278,7 @@
   </div>
   <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden"></div>
 
+  <!-- جافاسكربت الربط السحابي -->
   <script>
     const SUPABASE_URL = 'https://qrikkoarqzqousgaorjm.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFyaWtrb2FycXpxb3VzZ2FvcmptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3ODk3MzgsImV4cCI6MjEwNjM2NTczOH0.0QX8qkanTKe2iF1ALjtAT0L2t1P4N7WkmpDyMFAdKcg';
@@ -237,21 +340,22 @@
       if (!file) return;
       const reader = new FileReader();
       reader.onload = function(event) { uploadedFileContent = event.target.result; };
-      reader.readAsDataURL(file);
+      reader.readAsText(file);
     }
 
     async function handleCloudCreateProduct(e) {
       e.preventDefault();
       const type = document.getElementById('p-type').value;
       let finalContent = type === 'upload-file' ? uploadedFileContent : document.getElementById('p-image-url').value;
+      let productType = type === 'upload-file' ? '3d' : 'image';
 
-      if (!finalContent) { alert('يرجى اختيار صورة أو إدخال رابطها!'); return; }
+      if (!finalContent) { alert('يرجى إدخال محتوى أو رابط السلعة!'); return; }
 
       const newProduct = {
         title: document.getElementById('p-title').value,
         price: parseFloat(document.getElementById('p-price').value),
         category: document.getElementById('p-category').value,
-        type: 'image',
+        type: productType,
         content: finalContent
       };
 
@@ -277,6 +381,7 @@
       const list = document.getElementById('admin-products-list');
       document.getElementById('admin-count').innerText = products.length;
       if (products.length === 0) { list.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">لا توجد سلع في السحابة</p>`; return; }
+
       list.innerHTML = products.map(p => `
         <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border border-white/5">
           <div>
@@ -296,15 +401,20 @@
         grid.innerHTML = `<p class="text-slate-400 text-sm py-12">لا توجد سلع معروضة حالياً في المتجر.</p>`;
         return;
       }
+
       grid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6";
       grid.innerHTML = products.map(p => `
         <div class="glass-card rounded-2xl overflow-hidden hover:border-cyan-400/40 transition flex flex-col group">
           <div class="relative overflow-hidden aspect-square bg-slate-950/80 flex items-center justify-center">
-            <img src="${p.content}" class="w-full h-full object-cover">
+            ${p.type === '3d' ? `
+              <iframe srcdoc="${p.content.replace(/"/g, '&quot;')}" class="w-full h-full border-none pointer-events-auto" scrolling="no"></iframe>
+            ` : `
+              <img src="${p.content}" class="w-full h-full object-cover">
+            `}
             <span class="absolute top-3 right-3 bg-slate-950/80 border border-white/10 text-cyan-400 text-xs px-2.5 py-1 rounded-full">${p.category}</span>
           </div>
           <div class="p-5 flex flex-col flex-1 justify-between">
-            <h3 class="font-bold text-slate-100 text-base mb-4">${p.title}</h3>
+            <h3 class="text-base font-bold text-slate-100 mb-4">${p.title}</h3>
             <div class="flex items-center justify-between pt-3 border-t border-white/5">
               <span class="text-lg font-extrabold text-cyan-400">${p.price} د.ج</span>
               <button onclick="addToCart(${p.id})" class="px-3.5 py-2 bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 text-slate-200 rounded-xl text-xs font-bold transition">أضف للسلة</button>
@@ -326,11 +436,13 @@
       const itemsContainer = document.getElementById('cart-items');
       const totalEl = document.getElementById('cart-total');
       countEl.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+
       if (cart.length === 0) {
         itemsContainer.innerHTML = `<p class="text-slate-500 text-center text-sm py-12">السلة فارغة حالياً</p>`;
         totalEl.innerText = `0.00 د.ج`;
         return;
       }
+
       itemsContainer.innerHTML = cart.map(item => `
         <div class="flex items-center justify-between bg-slate-900/60 p-3 rounded-xl border border-white/5">
           <div class="flex-1 min-w-0">
@@ -339,6 +451,7 @@
           </div>
         </div>
       `).join('');
+
       totalEl.innerText = `${cart.reduce((sum, item) => sum + (item.price * item.qty), 0).toFixed(2)} د.ج`;
     }
 
