@@ -129,15 +129,15 @@
             <input type="text" id="p-category" required placeholder="التصنيف" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white text-xs">
           </div>
 
-          <!-- خانة رفع ملف 3D (HTML) -->
+          <!-- خانة رفع ملف 3D (تفتح مدير الملفات مباشرة) -->
           <div class="p-3 rounded-2xl bg-slate-900/80 border border-cyan-500/30">
-            <label class="block text-xs font-bold text-cyan-400 mb-1.5"><i class="fa-solid fa-cube"></i> رفع ملف 3D (.html):</label>
-            <input type="file" id="p-file" accept=".html,.htm,.txt" onchange="handleFileUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-slate-300 text-xs">
+            <label class="block text-xs font-bold text-cyan-400 mb-1.5"><i class="fa-solid fa-cube"></i> خانة رفع ملف 3D (اختر ملف html من هاتفك):</label>
+            <input type="file" id="p-file" accept="text/html,.html,.htm" onchange="handleFileUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-slate-300 text-xs">
           </div>
 
-          <!-- خانة رفع ملف الصورة المصغرة -->
+          <!-- خانة رفع صورة السلعة المصغرة (تفتح المعرض أو الملفات للصور) -->
           <div class="p-3 rounded-2xl bg-slate-900/80 border border-cyan-500/30">
-            <label class="block text-xs font-bold text-cyan-400 mb-1.5"><i class="fa-solid fa-image"></i> رفع ملف صورة السلعة المصغرة:</label>
+            <label class="block text-xs font-bold text-cyan-400 mb-1.5"><i class="fa-solid fa-image"></i> خانة رفع صورة السلعة المصغرة (اختر صورة):</label>
             <input type="file" id="p-thumb-file" accept="image/*" onchange="handleThumbUpload(event)" class="w-full px-3 py-2 rounded-xl bg-slate-950 border border-white/10 text-slate-300 text-xs">
           </div>
 
