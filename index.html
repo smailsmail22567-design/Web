@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- خط تجوال الحديث -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- مكتبة Supabase للاتصال بقاعدة البيانات السحابية -->
+  <!-- مكتبة Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -22,7 +22,6 @@
       background-attachment: fixed;
       min-height: 100vh;
     }
-
     .nav-capsule {
       display: inline-flex;
       align-items: center;
@@ -34,7 +33,6 @@
       border: 1.5px solid rgba(255, 255, 255, 0.12);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
     }
-
     .nav-link-item {
       position: relative;
       color: #94a3b8;
@@ -42,7 +40,6 @@
       transition: color 0.3s ease;
       cursor: pointer;
     }
-
     .nav-link-item::after {
       content: '';
       position: absolute;
@@ -56,51 +53,24 @@
       transform: translateX(-50%);
       border-radius: 2px;
     }
-
-    .nav-link-item:hover,
-    .nav-link-item.active {
-      color: #ffffff;
-    }
-
-    .nav-link-item:hover::after,
-    .nav-link-item.active::after {
-      width: 75%;
-    }
-
+    .nav-link-item:hover, .nav-link-item.active { color: #ffffff; }
+    .nav-link-item:hover::after, .nav-link-item.active::after { width: 75%; }
     .glass-card {
       background: rgba(18, 18, 24, 0.75);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-
     .social-btn {
-      width: 64px;
-      height: 64px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #94a3b8;
-      font-size: 1.6rem;
-      cursor: pointer;
+      width: 64px; height: 64px; border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 1.6rem; cursor: pointer;
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .social-btn:hover {
-      transform: translateY(-8px) scale(1.05);
-      color: #fff;
-    }
-    .social-btn.instagram:hover { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+    .social-btn:hover { transform: translateY(-8px) scale(1.05); color: #fff; }
     .social-btn.telegram:hover { background: #0088cc; }
-    .social-btn.youtube:hover { background: #ff0000; }
     .social-btn.whatsapp:hover { background: #25d366; }
-
-    .page-section {
-      display: none;
-      animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
+    .page-section { display: none; animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     .page-section.active { display: flex; }
     @keyframes fadeInSlide {
       from { opacity: 0; transform: translateY(12px) scale(0.98); }
@@ -114,7 +84,6 @@
   <header class="sticky top-2 z-40 max-w-6xl mx-auto w-full px-2 sm:px-4">
     <div class="glass-card rounded-2xl p-2.5 sm:px-6 sm:py-3.5 flex flex-col gap-2.5 shadow-2xl">
       <div class="flex items-center justify-between w-full">
-        <!-- الشعار -->
         <div class="flex items-center gap-2 cursor-pointer select-none" onclick="navigateTo('home')">
           <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-slate-900 border border-cyan-400/40 flex items-center justify-center text-cyan-400 font-black text-lg">
             <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -123,8 +92,6 @@
             متجر النخبة السحابي
           </span>
         </div>
-
-        <!-- أزرار الأدمن والسلة -->
         <div class="flex items-center gap-2">
           <button onclick="openAdminModal()" class="px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-400/30 text-cyan-400 text-xs font-bold transition flex items-center gap-1.5">
             <i class="fa-solid fa-shield-halved text-xs"></i>
@@ -136,8 +103,6 @@
           </button>
         </div>
       </div>
-
-      <!-- كبسولة التنقل -->
       <div class="flex justify-center w-full">
         <nav class="nav-capsule flex items-center justify-between w-full sm:w-auto gap-1 sm:gap-4 px-3 py-1.5">
           <button onclick="navigateTo('home')" id="tab-home" class="nav-link-item active text-xs sm:text-sm px-2 py-1">الرئيسية</button>
@@ -149,42 +114,35 @@
     </div>
   </header>
 
-  <!-- الصفحة 1: الرئيسية -->
+  <!-- الرئيسية -->
   <section id="page-home" class="page-section active flex-col justify-center items-center max-w-4xl mx-auto px-4 py-16 text-center w-full flex-1">
     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-card border border-cyan-500/30 text-cyan-400 text-xs font-semibold mb-6">
       <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
       متصل بقاعدة البيانات السحابية الحية
     </div>
-
     <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-[1.3] mb-6">
       تجربة تسوق سحابية متكاملة <br>
       <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-slate-100 bg-clip-text text-transparent">
         سلع فورية ومحدثة للجميع مباشرة
       </span>
     </h1>
-
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-      <button onclick="navigateTo('store')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition flex items-center justify-center gap-3">
-        <span>تصفح السلع السحابية</span>
-        <i class="fa-solid fa-arrow-left"></i>
-      </button>
-    </div>
+    <button onclick="navigateTo('store')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-base transition flex items-center justify-center gap-3">
+      <span>تصفح السلع السحابية</span>
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
   </section>
 
-  <!-- الصفحة 2: المتجر -->
+  <!-- المتجر -->
   <section id="page-store" class="page-section flex-col max-w-6xl mx-auto px-4 py-12 w-full flex-1">
     <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-      <div>
-        <h2 class="text-2xl sm:text-3xl font-black text-white">قائمة السلع السحابية</h2>
-        <p class="text-xs sm:text-sm text-slate-400 mt-1">تُجلب هذه السلع مباشرة من قاعدة البيانات ليراها الجميع</p>
-      </div>
+      <h2 class="text-2xl sm:text-3xl font-black text-white">قائمة السلع السحابية</h2>
     </div>
     <div id="products-grid" class="w-full text-center py-12">
       <p class="text-cyan-400 text-sm animate-pulse">جاري تحميل السلع من السحابة...</p>
     </div>
   </section>
 
-  <!-- الصفحة 3: تتبع الطلب -->
+  <!-- تتبع الطلب -->
   <section id="page-track" class="page-section flex-col items-center justify-center max-w-xl mx-auto px-4 py-16 w-full text-center flex-1">
     <div class="glass-card p-8 rounded-3xl w-full border border-white/10 shadow-2xl">
       <h2 class="text-2xl font-black text-white mb-2">تتبع حالة طلبك</h2>
@@ -193,7 +151,7 @@
     </div>
   </section>
 
-  <!-- الصفحة 4: تواصل معنا -->
+  <!-- تواصل معنا -->
   <section id="page-support" class="page-section flex-col items-center justify-center max-w-2xl mx-auto px-4 py-16 w-full flex-1">
     <div class="glass-card p-8 rounded-3xl w-full flex justify-center gap-5">
       <a href="https://t.me" target="_blank" class="social-btn telegram"><i class="fa-brands fa-telegram"></i></a>
@@ -201,23 +159,13 @@
     </div>
   </section>
 
-  <!-- الصفحة 5: لوحة تحكم الأدمن السحابية -->
+  <!-- لوحة الأدمن -->
   <section id="page-admin" class="page-section flex-col max-w-5xl mx-auto px-4 py-10 w-full flex-1">
     <div class="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-lg">
-          <i class="fa-solid fa-cloud"></i>
-        </div>
-        <div>
-          <h2 class="text-xl sm:text-2xl font-black text-white">لوحة الأدمن السحابية</h2>
-          <p class="text-xs text-slate-400">أي تعديل هنا سيظهر فوراً لكل زوار المتجر في العالم</p>
-        </div>
-      </div>
+      <h2 class="text-xl sm:text-2xl font-black text-white">لوحة الأدمن السحابية</h2>
       <button onclick="adminLogout()" class="px-3 py-1.5 bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold">خروج</button>
     </div>
-
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      <!-- نموذج إضافة سلعة سحابية -->
       <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10">
         <h3 class="text-base font-bold text-white mb-4">إضافة سلعة جديدة للسحابة</h3>
         <form id="add-product-form" onsubmit="handleCloudCreateProduct(event)" class="space-y-4">
@@ -239,8 +187,6 @@
           <button type="submit" class="w-full py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl text-xs">نشر السلعة سحابياً الآن</button>
         </form>
       </div>
-
-      <!-- قائمة السلع السحابية الحالية -->
       <div class="lg:col-span-6 glass-card p-6 rounded-3xl border border-white/10 flex flex-col">
         <h3 class="text-base font-bold text-white mb-4">السلع المسجلة في السحابة (<span id="admin-count">0</span>)</h3>
         <div id="admin-products-list" class="space-y-3 flex-1 overflow-y-auto max-h-96"></div>
@@ -248,7 +194,7 @@
     </div>
   </section>
 
-  <!-- نافذة كلمة مرور الأدمن -->
+  <!-- نافذة تسجيل دخول الأدمن -->
   <div id="admin-login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center px-4">
     <div class="glass-card max-w-sm w-full p-6 rounded-3xl border border-white/15 text-center shadow-2xl">
       <h3 class="text-lg font-black text-white mb-3">منطقة الإدارة السحابية</h3>
@@ -259,7 +205,7 @@
     </div>
   </div>
 
-  <!-- سلة المشتريات -->
+  <!-- السلة -->
   <div id="cart-drawer" class="fixed inset-y-0 left-0 w-full sm:w-96 glass-card z-50 transform -translate-x-full transition-transform duration-300 flex flex-col p-6 border-r border-white/10 shadow-2xl">
     <div class="flex items-center justify-between pb-4 border-b border-white/10">
       <h3 class="text-lg font-bold flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-cyan-400"></i> سلة المشتريات</h3>
@@ -278,12 +224,12 @@
   </div>
   <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden"></div>
 
-  <!-- جافاسكربت الربط السحابي -->
+  <!-- الجافاسكربت -->
   <script>
-    // تم تحديث مفتاح الـ API بدقة تامة
     const SUPABASE_URL = 'https://qrikkoarqzqousgaorjm.supabase.co';
     const SUPABASE_ANON_KEY = 'Sb_publishable_acucjK9A5IPZdklis0Tf1g_dq4V0yOC';
     
+    // تهيئة Supabase مع ضبط التوافقية الكاملة
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const ADMIN_PASS = "admin123";
@@ -302,13 +248,20 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // جلب السلع من السحابة تلقائياً
     async function fetchProductsFromCloud() {
-      const { data, error } = await supabaseClient.from('products').select('*').order('id', { ascending: false });
-      if (!error && data) {
-        products = data;
-        renderProducts();
-        if (isAdminLoggedIn) renderAdminProducts();
+      try {
+        const { data, error } = await supabaseClient.from('products').select('*').order('id', { ascending: false });
+        if (error) {
+          console.error("خطأ في جلب البيانات:", error.message);
+          return;
+        }
+        if (data) {
+          products = data;
+          renderProducts();
+          if (isAdminLoggedIn) renderAdminProducts();
+        }
+      } catch (err) {
+        console.error("خطأ غير متوقع:", err);
       }
     }
 
@@ -345,7 +298,6 @@
       reader.readAsText(file);
     }
 
-    // رفع سلعة جديدة مباشرة إلى سحابة Supabase ليراها الجميع
     async function handleCloudCreateProduct(e) {
       e.preventDefault();
       const type = document.getElementById('p-type').value;
@@ -373,7 +325,6 @@
       }
     }
 
-    // حذف سلعة من السحابة للجميع
     async function deleteCloudProduct(id) {
       if (confirm('هل تريد حذف هذه السلعة نهائياً من السحابة؟')) {
         const { error } = await supabaseClient.from('products').delete().eq('id', id);
@@ -385,7 +336,6 @@
       const list = document.getElementById('admin-products-list');
       document.getElementById('admin-count').innerText = products.length;
       if (products.length === 0) { list.innerHTML = `<p class="text-xs text-slate-500 text-center py-6">لا توجد سلع في السحابة</p>`; return; }
-
       list.innerHTML = products.map(p => `
         <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/60 border border-white/5">
           <div>
@@ -405,7 +355,6 @@
         grid.innerHTML = `<p class="text-slate-400 text-sm py-12">لا توجد سلع معروضة حالياً في المتجر.</p>`;
         return;
       }
-
       grid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6";
       grid.innerHTML = products.map(p => `
         <div class="glass-card rounded-2xl overflow-hidden hover:border-cyan-400/40 transition flex flex-col group">
@@ -431,7 +380,7 @@
     function addToCart(id) {
       const product = products.find(p => p.id === id);
       const item = cart.find(i => i.id === id);
-    if (item) { item.qty++; } else { cart.push({ ...product, qty: 1 }); }
+      if (item) { item.qty++; } else { cart.push({ ...product, qty: 1 }); }
       updateCartUI();
     }
 
@@ -446,7 +395,6 @@
         totalEl.innerText = `0.00 د.ج`;
         return;
       }
-
       itemsContainer.innerHTML = cart.map(item => `
         <div class="flex items-center justify-between bg-slate-900/60 p-3 rounded-xl border border-white/5">
           <div class="flex-1 min-w-0">
@@ -455,7 +403,6 @@
           </div>
         </div>
       `).join('');
-
       totalEl.innerText = `${cart.reduce((sum, item) => sum + (item.price * item.qty), 0).toFixed(2)} د.ج`;
     }
 
@@ -467,7 +414,6 @@
       overlay.classList.toggle('hidden', isOpen);
     }
 
-    // جلب السلع تلقائياً عند فتح الموقع
     fetchProductsFromCloud();
   </script>
 </body>
